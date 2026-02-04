@@ -142,7 +142,10 @@ module pong_logic (
                     pdl1_vel_count <= pdl1_vel_count + 1;
                 end else begin              // Increment paddle position every velocity tick
                     pdl1_vel_count <= 0;
-                    pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
+                    // Make sure we aren't at the top of the screen
+                    if (pdl1_ypos > 0) begin
+                        pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
+                    end
                 end
             end
         end else if (!down_p1) begin    // If player 1 presses down and wasn't pressing up
@@ -151,7 +154,10 @@ module pong_logic (
                 pdl1_vel_count <= pdl1_vel_count + 1;
             end else begin              // Increment paddle position every velocity tick
                 pdl1_vel_count <= 0;
-                pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
+                // Make sure we aren't at the bottom of the screen
+                if (pdl1_ypos + pdl_height < v_video - 1) begin
+                    pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
+                end
             end
         end
 
@@ -163,7 +169,10 @@ module pong_logic (
                     pdl2_vel_count <= pdl2_vel_count + 1;
                 end else begin              // Increment paddle position every velocity tick
                     pdl2_vel_count <= 0;
-                    pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
+                    // Make sure we aren't at the top of the screen
+                    if (pdl2_ypos > 0) begin
+                        pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
+                    end
                 end
             end
         end else if (!down_p2) begin    // If player 2 presses down and wasn't pressing up
@@ -172,7 +181,10 @@ module pong_logic (
                 pdl2_vel_count <= pdl2_vel_count + 1;
             end else begin              // Increment paddle position every velocity tick
                 pdl2_vel_count <= 0;
-                pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
+                // Make sure we aren't at the bottom of the screen
+                if (pdl2_ypos + pdl_height < v_video - 1) begin
+                    pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
+                end
             end
         end
 

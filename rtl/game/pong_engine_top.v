@@ -15,6 +15,14 @@ module pong_engine_top #(
     );
 
     wire clk_0;             // Intermediate wire to connect 25.175MHz clock between modules
+    wire pll_locked;
+
+    sys_pll pll_inst (
+        .inclk0(clk),       // 50MHz input clock
+        .rst(1'b1),        // Reset button
+        .c0(clk_0),         // 25.175MHz output clock
+        .locked(pll_locked)
+    );
 
     // Display states
     wire [9:0] pixel_x;     // Horizontal pixel coordinate (from 0)
@@ -35,9 +43,8 @@ module pong_engine_top #(
     wire [BUTTONS-1:0] debounced_signal;
 
     vga_sync vga_sync_logic (
-        .clk(clk),
-        .rst(rst),
         .clk_0(clk_0),
+        .rst(1'b1),
         .h_sync(h_sync),
         .v_sync(v_sync),
         .pixel_x(pixel_x),

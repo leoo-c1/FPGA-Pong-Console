@@ -57,6 +57,10 @@ module pong_engine_top #(
     pong_logic game_state (
         .clk_0(clk_0),
         .rst(rst),
+        .up_p1(debounced_signal[0]),
+        .down_p1(debounced_signal[1]),
+        .up_p2(debounced_signal[2]),
+        .down_p2(debounced_signal[3]),
         .square_xpos(square_xpos),
         .square_ypos(square_ypos),
         .paddle1_xpos(paddle1_xpos),

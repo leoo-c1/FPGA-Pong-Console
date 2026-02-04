@@ -37,7 +37,7 @@ module pong_logic (
 
     // Paddle velocity setup
     parameter pdl_vel = 200;                        // Paddles' velocities in pixels/second
-    parameter pdl_vel_psc = 25_175_000/pdl_velocity;    // Clock prescaler for paddles' velocities
+    parameter pdl_vel_psc = 25_175_000/pdl_vel;     // Clock prescaler for paddles' velocities
     reg [18:0] pdl1_vel_count = 0;                  // Left paddle's velocity ticker
     reg [18:0] pdl2_vel_count = 0;                  // Right paddle's velocity ticker
     reg pdl1_yvel = 1'b0;           // Left paddle's velocity direction along y, 0 = up, 1 = down
@@ -168,7 +168,7 @@ module pong_logic (
             end
         end else if (!down_p2) begin    // If player 2 presses down and wasn't pressing up
             pdl2_yvel <= 1;
-            if (pd2l_vel_count < pdl_vel_psc) begin
+            if (pdl2_vel_count < pdl_vel_psc) begin
                 pdl2_vel_count <= pdl2_vel_count + 1;
             end else begin              // Increment paddle position every velocity tick
                 pdl2_vel_count <= 0;

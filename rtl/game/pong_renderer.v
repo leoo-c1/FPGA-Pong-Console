@@ -31,13 +31,17 @@ module pong_renderer (
 
     parameter square_width = 16;    // The side lengths of the square
     parameter paddle_width = 12;    // The thickness of the paddle
-    parameter paddle_height = 96;  // The height of the paddle
+    parameter paddle_height = 96;   // The height of the paddle
+    parameter net_width = 12;       // The side lengths of the net squares
 
-    // Future reference: Net is alternating black and white squares (size 12)  
+    reg [4:0] net_counter = 0;
+
+    // Future reference: Net is alternating black and white squares (size 12, offset from top = 6)  
 
     reg in_square = 1'b0;           // If current pixel is inside the square
     reg in_paddle1 = 1'b0;          // If current pixel is inside paddle1
     reg in_paddle2 = 1'b0;          // If current pixel is inside paddle2
+    reg in_net = 1'b0;              // If current pixel is inside the net
 
     always @ (posedge clk_0) begin
         if (!rst) begin             // If we press the reset button, show black
@@ -47,6 +51,8 @@ module pong_renderer (
             in_square <= 1'b0;
             in_paddle1 <= 1'b0;
             in_paddle2 <= 1'b0;
+            in_net <= 1'b0;
+            net_counter <= 0;
 
         end else if (video_on) begin    // If we are in the active video region
             // If the pixel is within the horizontal limits of the square
@@ -94,6 +100,26 @@ module pong_renderer (
                 in_paddle2 <= 1'b0;
             end
 
+            if (pixel_y == 0 && pixel_x == 0) begin
+                net_counter <= 18; 
+            end 
+            // Check for Start of New Line
+            else if (pixel_x == 0) begin
+                if (net_counter == 23) begin
+                    net_counter <= 0;
+                end else begin
+                    net_counter <= net_counter + 1;
+                end
+            end
+
+            if (pixel_x >= h_video/2 - net_width/2 && pixel_x <= h_video/2 + net_width/2 - 1) begin
+                if (net_counter < 12) begin
+                    in_net <= 1'b1;
+                end
+            end else begin
+                in_net <= 1'b0;
+            end
+
         end else begin          // If we are outside the active video region, show black
             red <= 1'b0;
             green <= 1'b0;
@@ -101,7 +127,7 @@ module pong_renderer (
         end
 
         // If we are inside a sprite, make the pixel white
-        if (in_paddle1 || in_paddle2 || in_square) begin
+        if (in_paddle1 || in_paddle2 || in_square || in_net) begin
             red <= 1'b1;
             green <= 1'b1;
             blue <= 1'b1;

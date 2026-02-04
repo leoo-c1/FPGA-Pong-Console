@@ -61,12 +61,12 @@ module pong_engine_top #(
         .down_p1(debounced_signal[1]),
         .up_p2(debounced_signal[2]),
         .down_p2(debounced_signal[3]),
-        .square_xpos(square_xpos),
-        .square_ypos(square_ypos),
-        .paddle1_xpos(paddle1_xpos),
-        .paddle1_ypos(paddle1_ypos),
-        .paddle2_xpos(paddle2_xpos),
-        .paddle2_ypos(paddle2_ypos)
+        .sq_xpos(square_xpos),
+        .sq_ypos(square_ypos),
+        .pdl1_xpos(paddle1_xpos),
+        .pdl1_ypos(paddle1_ypos),
+        .pdl2_xpos(paddle2_xpos),
+        .pdl2_ypos(paddle2_ypos)
     );
 
     pong_renderer game_scene (

@@ -1,6 +1,10 @@
-module pong_engine_top (
+module pong_engine_top #(
+    parameter BUTTONS = 4;  // Number of buttons to debounce
+) (
     input clk,              // 50MHz clock
     input rst,              // Reset button
+
+    input wire [BUTTONS-1:0] button     // Input user buttons
 
     output h_sync,          // Horizontal sync pulse
     output v_sync,          // Vertical sync pulse
@@ -27,6 +31,9 @@ module pong_engine_top (
     wire [9:0] paddle2_xpos;
     wire [9:0] paddle2_ypos;
 
+    // Debounced button signals
+    wire [BUTTONS-1:0] debounced_signal;
+
     vga_sync vga_sync_logic (
         .clk(clk),
         .rst(rst),
@@ -36,6 +43,26 @@ module pong_engine_top (
         .pixel_x(pixel_x),
         .pixel_y(pixel_y),
         .video_on(video_on)
+    );
+
+    button_debouncer #(
+        .BUTTONS(BUTTONS)
+    ) user_input (
+        .clk(clk),
+        .rst(rst),
+        .raw_signal(button),
+        .debounced_signal(debounced_signal)
+    );
+
+    pong_logic game_state (
+        .clk_0(clk_0),
+        .rst(rst),
+        .square_xpos(square_xpos),
+        .square_ypos(square_ypos),
+        .paddle1_xpos(paddle1_xpos),
+        .paddle1_ypos(paddle1_ypos),
+        .paddle2_xpos(paddle2_xpos),
+        .paddle2_ypos(paddle2_ypos)
     );
 
     pong_renderer game_scene (
@@ -53,17 +80,6 @@ module pong_engine_top (
         .red(red),
         .green(green),
         .blue(blue)
-    );
-
-    pong_logic game_state (
-        .clk_0(clk_0),
-        .rst(rst),
-        .square_xpos(square_xpos),
-        .square_ypos(square_ypos),
-        .paddle1_xpos(paddle1_xpos),
-        .paddle1_ypos(paddle1_ypos),
-        .paddle2_xpos(paddle2_xpos),
-        .paddle2_ypos(paddle2_ypos)
     );
 
 endmodule

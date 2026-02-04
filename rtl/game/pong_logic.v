@@ -59,14 +59,32 @@ module pong_logic (
             pdl2_ypos <= 191;
         end else begin
             // Square collision with right wall
-            if (sq_xpos >= h_video - sq_width - 1) begin
-                sq_xvel <= ~sq_xvel;        // Change direction along x-axis
-                sq_xpos <= sq_xpos - 1;     // Move to the left by one pixel
+            if (sq_xpos >= h_video - sq_width - 1) begin // Reset game state
+                sq_xpos <= h_video /2;
+                sq_ypos <= v_video /2;
+                sq_vel_count <= 0;
+                pdl1_vel_count <= 0;
+                pdl2_vel_count <= 0;
+                sq_xvel <= 1'b0;
+                sq_yvel <= 1'b0;
+                pdl1_xpos <= 24;
+                pdl1_ypos <= 191;
+                pdl2_xpos <= 603;
+                pdl2_ypos <= 191;
 
             // Square collision with left wall
             end else if (sq_xpos <= 0) begin
-                sq_xvel <= ~sq_xvel;        // Change direction along y-axis
-                sq_xpos <= sq_xpos + 1;     // Move to the right one pixel
+                sq_xpos <= h_video /2;
+                sq_ypos <= v_video /2;
+                sq_vel_count <= 0;
+                pdl1_vel_count <= 0;
+                pdl2_vel_count <= 0;
+                sq_xvel <= 1'b0;
+                sq_yvel <= 1'b0;
+                pdl1_xpos <= 24;
+                pdl1_ypos <= 191;
+                pdl2_xpos <= 603;
+                pdl2_ypos <= 191;
             
             // Square collision with left paddle
             end else if (sq_xpos <= pdl1_xpos + pdl_width + 1 && 

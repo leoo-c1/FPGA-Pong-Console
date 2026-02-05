@@ -1,7 +1,7 @@
 module font_rom (
-    input [6:0] char_code,  // ASCII (0-127)
-    input [2:0] row,        // Row 0-7
-    output reg [7:0] row_bits // 8 pixels of that row
+    input [6:0] char_code,  // ascii input
+    input [2:0] row,        // 0-7 row index
+    output reg [7:0] row_bits // 8-bit row map
 );
 
     always @(*) begin
@@ -21,23 +21,23 @@ module font_rom (
             end
             7'd33: begin // '!'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
                     3'd6: row_bits = 8'b00000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd34: begin // '"'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b10100000;
                     3'd1: row_bits = 8'b10100000;
                     3'd2: row_bits = 8'b10100000;
-                    3'd3: row_bits = 8'b10100000;
+                    3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
@@ -47,10 +47,10 @@ module font_rom (
             end
             7'd35: begin // '#'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b00101000;
                     3'd1: row_bits = 8'b00101000;
-                    3'd2: row_bits = 8'b00101000;
-                    3'd3: row_bits = 8'b11111000;
+                    3'd2: row_bits = 8'b11111000;
+                    3'd3: row_bits = 8'b01010000;
                     3'd4: row_bits = 8'b01010000;
                     3'd5: row_bits = 8'b11111000;
                     3'd6: row_bits = 8'b10100000;
@@ -60,11 +60,11 @@ module font_rom (
             end
             7'd36: begin // '$'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
-                    3'd2: row_bits = 8'b10101000;
-                    3'd3: row_bits = 8'b11100000;
-                    3'd4: row_bits = 8'b00111000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10101000;
+                    3'd2: row_bits = 8'b10100000;
+                    3'd3: row_bits = 8'b01110000;
+                    3'd4: row_bits = 8'b00101000;
                     3'd5: row_bits = 8'b00101000;
                     3'd6: row_bits = 8'b10101000;
                     3'd7: row_bits = 8'b01110000;
@@ -73,36 +73,36 @@ module font_rom (
             end
             7'd37: begin // '%'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00100010;
-                    3'd2: row_bits = 8'b01010100;
-                    3'd3: row_bits = 8'b01010100;
-                    3'd4: row_bits = 8'b00101010;
-                    3'd5: row_bits = 8'b00001101;
-                    3'd6: row_bits = 8'b00010101;
-                    3'd7: row_bits = 8'b00010010;
+                    3'd0: row_bits = 8'b01100010;
+                    3'd1: row_bits = 8'b10010100;
+                    3'd2: row_bits = 8'b10010100;
+                    3'd3: row_bits = 8'b01101000;
+                    3'd4: row_bits = 8'b00001011;
+                    3'd5: row_bits = 8'b00010100;
+                    3'd6: row_bits = 8'b00010100;
+                    3'd7: row_bits = 8'b00100011;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd38: begin // '&'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00111000;
+                    3'd0: row_bits = 8'b00110000;
+                    3'd1: row_bits = 8'b01001000;
                     3'd2: row_bits = 8'b01001000;
                     3'd3: row_bits = 8'b00110000;
-                    3'd4: row_bits = 8'b01100000;
-                    3'd5: row_bits = 8'b10010110;
-                    3'd6: row_bits = 8'b10001100;
-                    3'd7: row_bits = 8'b01110110;
+                    3'd4: row_bits = 8'b01010000;
+                    3'd5: row_bits = 8'b10001100;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b01110100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd39: begin // '''
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b10000000;
                     3'd1: row_bits = 8'b10000000;
                     3'd2: row_bits = 8'b10000000;
-                    3'd3: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
@@ -112,9 +112,9 @@ module font_rom (
             end
             7'd40: begin // '('
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00100000;
-                    3'd2: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b10000000;
                     3'd3: row_bits = 8'b10000000;
                     3'd4: row_bits = 8'b10000000;
                     3'd5: row_bits = 8'b10000000;
@@ -125,9 +125,9 @@ module font_rom (
             end
             7'd41: begin // ')'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10000000;
-                    3'd2: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b00100000;
                     3'd3: row_bits = 8'b00100000;
                     3'd4: row_bits = 8'b00100000;
                     3'd5: row_bits = 8'b00100000;
@@ -138,7 +138,7 @@ module font_rom (
             end
             7'd42: begin // '*'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b01000000;
                     3'd1: row_bits = 8'b11100000;
                     3'd2: row_bits = 8'b01000000;
                     3'd3: row_bits = 8'b10100000;
@@ -182,7 +182,7 @@ module font_rom (
                     3'd2: row_bits = 8'b00000000;
                     3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
-                    3'd5: row_bits = 8'b11000000;
+                    3'd5: row_bits = 8'b11100000;
                     3'd6: row_bits = 8'b00000000;
                     3'd7: row_bits = 8'b00000000;
                     default: row_bits = 8'b00000000;
@@ -203,9 +203,9 @@ module font_rom (
             end
             7'd47: begin // '/'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b00100000;
                     3'd1: row_bits = 8'b00100000;
-                    3'd2: row_bits = 8'b00100000;
+                    3'd2: row_bits = 8'b01000000;
                     3'd3: row_bits = 8'b01000000;
                     3'd4: row_bits = 8'b01000000;
                     3'd5: row_bits = 8'b01000000;
@@ -216,8 +216,8 @@ module font_rom (
             end
             7'd48: begin // '0'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
                     3'd2: row_bits = 8'b10001000;
                     3'd3: row_bits = 8'b10001000;
                     3'd4: row_bits = 8'b10001000;
@@ -229,22 +229,22 @@ module font_rom (
             end
             7'd49: begin // '1'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00010000;
-                    3'd2: row_bits = 8'b00110000;
-                    3'd3: row_bits = 8'b01010000;
-                    3'd4: row_bits = 8'b00010000;
-                    3'd5: row_bits = 8'b00010000;
-                    3'd6: row_bits = 8'b00010000;
-                    3'd7: row_bits = 8'b00010000;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01100000;
+                    3'd2: row_bits = 8'b10100000;
+                    3'd3: row_bits = 8'b00100000;
+                    3'd4: row_bits = 8'b00100000;
+                    3'd5: row_bits = 8'b00100000;
+                    3'd6: row_bits = 8'b00100000;
+                    3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd50: begin // '2'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
-                    3'd2: row_bits = 8'b10001000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b00001000;
                     3'd3: row_bits = 8'b00001000;
                     3'd4: row_bits = 8'b00010000;
                     3'd5: row_bits = 8'b00100000;
@@ -255,11 +255,11 @@ module font_rom (
             end
             7'd51: begin // '3'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
-                    3'd2: row_bits = 8'b10001000;
-                    3'd3: row_bits = 8'b00001000;
-                    3'd4: row_bits = 8'b00110000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b00001000;
+                    3'd3: row_bits = 8'b00110000;
+                    3'd4: row_bits = 8'b00001000;
                     3'd5: row_bits = 8'b00001000;
                     3'd6: row_bits = 8'b10001000;
                     3'd7: row_bits = 8'b01110000;
@@ -268,24 +268,24 @@ module font_rom (
             end
             7'd52: begin // '4'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00011000;
-                    3'd2: row_bits = 8'b00101000;
-                    3'd3: row_bits = 8'b01001000;
-                    3'd4: row_bits = 8'b10001000;
-                    3'd5: row_bits = 8'b11111100;
-                    3'd6: row_bits = 8'b00001000;
-                    3'd7: row_bits = 8'b00001000;
+                    3'd0: row_bits = 8'b00010000;
+                    3'd1: row_bits = 8'b00110000;
+                    3'd2: row_bits = 8'b01010000;
+                    3'd3: row_bits = 8'b01010000;
+                    3'd4: row_bits = 8'b10010000;
+                    3'd5: row_bits = 8'b11111000;
+                    3'd6: row_bits = 8'b00010000;
+                    3'd7: row_bits = 8'b00010000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd53: begin // '5'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b01111000;
+                    3'd1: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b10000000;
                     3'd3: row_bits = 8'b11110000;
-                    3'd4: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b00001000;
                     3'd5: row_bits = 8'b00001000;
                     3'd6: row_bits = 8'b10001000;
                     3'd7: row_bits = 8'b01110000;
@@ -294,9 +294,9 @@ module font_rom (
             end
             7'd54: begin // '6'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
-                    3'd2: row_bits = 8'b10001000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b10000000;
                     3'd3: row_bits = 8'b11110000;
                     3'd4: row_bits = 8'b10001000;
                     3'd5: row_bits = 8'b10001000;
@@ -307,12 +307,12 @@ module font_rom (
             end
             7'd55: begin // '7'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b11111000;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b00010000;
                     3'd2: row_bits = 8'b00010000;
-                    3'd3: row_bits = 8'b00010000;
+                    3'd3: row_bits = 8'b00100000;
                     3'd4: row_bits = 8'b00100000;
-                    3'd5: row_bits = 8'b00100000;
+                    3'd5: row_bits = 8'b01000000;
                     3'd6: row_bits = 8'b01000000;
                     3'd7: row_bits = 8'b01000000;
                     default: row_bits = 8'b00000000;
@@ -320,11 +320,11 @@ module font_rom (
             end
             7'd56: begin // '8'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
                     3'd2: row_bits = 8'b10001000;
-                    3'd3: row_bits = 8'b10001000;
-                    3'd4: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b01110000;
+                    3'd4: row_bits = 8'b10001000;
                     3'd5: row_bits = 8'b10001000;
                     3'd6: row_bits = 8'b10001000;
                     3'd7: row_bits = 8'b01110000;
@@ -333,12 +333,12 @@ module font_rom (
             end
             7'd57: begin // '9'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
                     3'd2: row_bits = 8'b10001000;
                     3'd3: row_bits = 8'b10001000;
-                    3'd4: row_bits = 8'b10001000;
-                    3'd5: row_bits = 8'b01111000;
+                    3'd4: row_bits = 8'b01111000;
+                    3'd5: row_bits = 8'b00001000;
                     3'd6: row_bits = 8'b10001000;
                     3'd7: row_bits = 8'b01110000;
                     default: row_bits = 8'b00000000;
@@ -348,12 +348,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -361,12 +361,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -375,9 +375,9 @@ module font_rom (
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
                     3'd2: row_bits = 8'b00001000;
-                    3'd3: row_bits = 8'b00110000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b00110000;
+                    3'd3: row_bits = 8'b01110000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b01110000;
                     3'd6: row_bits = 8'b00001000;
                     3'd7: row_bits = 8'b00000000;
                     default: row_bits = 8'b00000000;
@@ -400,75 +400,75 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b00110000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b01110000;
                     3'd4: row_bits = 8'b00001000;
-                    3'd5: row_bits = 8'b00110000;
-                    3'd6: row_bits = 8'b01000000;
+                    3'd5: row_bits = 8'b01110000;
+                    3'd6: row_bits = 8'b10000000;
                     3'd7: row_bits = 8'b00000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd63: begin // '?'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b10000100;
-                    3'd3: row_bits = 8'b00000100;
-                    3'd4: row_bits = 8'b00011000;
-                    3'd5: row_bits = 8'b00010000;
+                    3'd0: row_bits = 8'b01110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b00001000;
+                    3'd3: row_bits = 8'b00010000;
+                    3'd4: row_bits = 8'b00100000;
+                    3'd5: row_bits = 8'b00100000;
                     3'd6: row_bits = 8'b00000000;
-                    3'd7: row_bits = 8'b00010000;
+                    3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd64: begin // '@'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00011111;
-                    3'd2: row_bits = 8'b00100000;
-                    3'd3: row_bits = 8'b00101101;
-                    3'd4: row_bits = 8'b01010011;
-                    3'd5: row_bits = 8'b01010010;
-                    3'd6: row_bits = 8'b01010010;
-                    3'd7: row_bits = 8'b01001111;
+                    3'd0: row_bits = 8'b00011111;
+                    3'd1: row_bits = 8'b01100000;
+                    3'd2: row_bits = 8'b01001101;
+                    3'd3: row_bits = 8'b10010011;
+                    3'd4: row_bits = 8'b10100010;
+                    3'd5: row_bits = 8'b10100010;
+                    3'd6: row_bits = 8'b10100110;
+                    3'd7: row_bits = 8'b10011011;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd65: begin // 'A'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00010000;
-                    3'd2: row_bits = 8'b00101000;
-                    3'd3: row_bits = 8'b00101000;
-                    3'd4: row_bits = 8'b01000100;
-                    3'd5: row_bits = 8'b01111100;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b10000010;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01010000;
+                    3'd2: row_bits = 8'b01010000;
+                    3'd3: row_bits = 8'b01010000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b11111000;
+                    3'd6: row_bits = 8'b00000100;
+                    3'd7: row_bits = 8'b00000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd66: begin // 'B'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01111100;
-                    3'd5: row_bits = 8'b01000100;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b01111000;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b10000100;
+                    3'd2: row_bits = 8'b10000100;
+                    3'd3: row_bits = 8'b11111100;
+                    3'd4: row_bits = 8'b10000100;
+                    3'd5: row_bits = 8'b10000100;
+                    3'd6: row_bits = 8'b10000100;
+                    3'd7: row_bits = 8'b11111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd67: begin // 'C'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00111000;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b00111000;
+                    3'd1: row_bits = 8'b01000100;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
                     3'd6: row_bits = 8'b01000100;
                     3'd7: row_bits = 8'b00111000;
                     default: row_bits = 8'b00000000;
@@ -476,85 +476,85 @@ module font_rom (
             end
             7'd68: begin // 'D'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01110000;
-                    3'd2: row_bits = 8'b01001000;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01000100;
-                    3'd5: row_bits = 8'b01000100;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01110000;
+                    3'd0: row_bits = 8'b11110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b10000100;
+                    3'd3: row_bits = 8'b10000100;
+                    3'd4: row_bits = 8'b10000100;
+                    3'd5: row_bits = 8'b10000100;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b11110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd69: begin // 'E'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111100;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01111100;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01111100;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b11111000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b11111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd70: begin // 'F'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01110000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b11110000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd71: begin // 'G'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00011000;
-                    3'd2: row_bits = 8'b00100100;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01001110;
-                    3'd5: row_bits = 8'b01000010;
-                    3'd6: row_bits = 8'b00100100;
-                    3'd7: row_bits = 8'b00011000;
+                    3'd0: row_bits = 8'b00111000;
+                    3'd1: row_bits = 8'b01000100;
+                    3'd2: row_bits = 8'b10000010;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10001110;
+                    3'd5: row_bits = 8'b10000010;
+                    3'd6: row_bits = 8'b01000100;
+                    3'd7: row_bits = 8'b00111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd72: begin // 'H'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000100;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01111100;
-                    3'd5: row_bits = 8'b01000100;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b01000100;
+                    3'd0: row_bits = 8'b10000100;
+                    3'd1: row_bits = 8'b10000100;
+                    3'd2: row_bits = 8'b10000100;
+                    3'd3: row_bits = 8'b11111100;
+                    3'd4: row_bits = 8'b10000100;
+                    3'd5: row_bits = 8'b10000100;
+                    3'd6: row_bits = 8'b10000100;
+                    3'd7: row_bits = 8'b10000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd73: begin // 'I'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd74: begin // 'J'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b00100000;
                     3'd1: row_bits = 8'b00100000;
                     3'd2: row_bits = 8'b00100000;
                     3'd3: row_bits = 8'b00100000;
@@ -567,190 +567,190 @@ module font_rom (
             end
             7'd75: begin // 'K'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000010;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01001000;
-                    3'd4: row_bits = 8'b01010000;
-                    3'd5: row_bits = 8'b01101000;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b01000010;
+                    3'd0: row_bits = 8'b10000100;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b10010000;
+                    3'd3: row_bits = 8'b10110000;
+                    3'd4: row_bits = 8'b11010000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b10000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd76: begin // 'L'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01111100;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b11111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd77: begin // 'M'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000001;
-                    3'd2: row_bits = 8'b01100011;
-                    3'd3: row_bits = 8'b01100011;
-                    3'd4: row_bits = 8'b01010101;
-                    3'd5: row_bits = 8'b01010101;
-                    3'd6: row_bits = 8'b01010101;
-                    3'd7: row_bits = 8'b01001001;
+                    3'd0: row_bits = 8'b10000010;
+                    3'd1: row_bits = 8'b11000110;
+                    3'd2: row_bits = 8'b11000110;
+                    3'd3: row_bits = 8'b10101010;
+                    3'd4: row_bits = 8'b10101010;
+                    3'd5: row_bits = 8'b10101010;
+                    3'd6: row_bits = 8'b10010010;
+                    3'd7: row_bits = 8'b10010010;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd78: begin // 'N'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000100;
-                    3'd2: row_bits = 8'b01100100;
-                    3'd3: row_bits = 8'b01100100;
-                    3'd4: row_bits = 8'b01010100;
-                    3'd5: row_bits = 8'b01001100;
-                    3'd6: row_bits = 8'b01001100;
-                    3'd7: row_bits = 8'b01000100;
+                    3'd0: row_bits = 8'b10000100;
+                    3'd1: row_bits = 8'b11000100;
+                    3'd2: row_bits = 8'b10100100;
+                    3'd3: row_bits = 8'b10100100;
+                    3'd4: row_bits = 8'b10010100;
+                    3'd5: row_bits = 8'b10010100;
+                    3'd6: row_bits = 8'b10001100;
+                    3'd7: row_bits = 8'b10000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd79: begin // 'O'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00111100;
-                    3'd2: row_bits = 8'b01000010;
-                    3'd3: row_bits = 8'b01000010;
-                    3'd4: row_bits = 8'b01000010;
-                    3'd5: row_bits = 8'b01000010;
-                    3'd6: row_bits = 8'b01000010;
-                    3'd7: row_bits = 8'b00111100;
+                    3'd0: row_bits = 8'b00111000;
+                    3'd1: row_bits = 8'b01000100;
+                    3'd2: row_bits = 8'b10000010;
+                    3'd3: row_bits = 8'b10000010;
+                    3'd4: row_bits = 8'b10000010;
+                    3'd5: row_bits = 8'b10000010;
+                    3'd6: row_bits = 8'b01000100;
+                    3'd7: row_bits = 8'b00111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd80: begin // 'P'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01111000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b11110000;
+                    3'd1: row_bits = 8'b10001000;
+                    3'd2: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b11110000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd81: begin // 'Q'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00111100;
-                    3'd2: row_bits = 8'b01000010;
-                    3'd3: row_bits = 8'b01000010;
-                    3'd4: row_bits = 8'b01000010;
-                    3'd5: row_bits = 8'b01000010;
-                    3'd6: row_bits = 8'b01001100;
-                    3'd7: row_bits = 8'b00111110;
+                    3'd0: row_bits = 8'b00111000;
+                    3'd1: row_bits = 8'b01000100;
+                    3'd2: row_bits = 8'b10000010;
+                    3'd3: row_bits = 8'b10000010;
+                    3'd4: row_bits = 8'b10000010;
+                    3'd5: row_bits = 8'b10011010;
+                    3'd6: row_bits = 8'b01000100;
+                    3'd7: row_bits = 8'b00111010;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd82: begin // 'R'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111000;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01111000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b01000100;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b10000100;
+                    3'd2: row_bits = 8'b10000100;
+                    3'd3: row_bits = 8'b11111000;
+                    3'd4: row_bits = 8'b10010000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b10000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd83: begin // 'S'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00111000;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b00111000;
+                    3'd0: row_bits = 8'b01111000;
+                    3'd1: row_bits = 8'b10000100;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b01100000;
+                    3'd4: row_bits = 8'b00011000;
                     3'd5: row_bits = 8'b00000100;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd6: row_bits = 8'b10000100;
+                    3'd7: row_bits = 8'b01111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd84: begin // 'T'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01111100;
-                    3'd2: row_bits = 8'b00010000;
-                    3'd3: row_bits = 8'b00010000;
-                    3'd4: row_bits = 8'b00010000;
-                    3'd5: row_bits = 8'b00010000;
-                    3'd6: row_bits = 8'b00010000;
-                    3'd7: row_bits = 8'b00010000;
+                    3'd0: row_bits = 8'b11111000;
+                    3'd1: row_bits = 8'b00100000;
+                    3'd2: row_bits = 8'b00100000;
+                    3'd3: row_bits = 8'b00100000;
+                    3'd4: row_bits = 8'b00100000;
+                    3'd5: row_bits = 8'b00100000;
+                    3'd6: row_bits = 8'b00100000;
+                    3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd85: begin // 'U'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000100;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01000100;
-                    3'd5: row_bits = 8'b01000100;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd0: row_bits = 8'b10000100;
+                    3'd1: row_bits = 8'b10000100;
+                    3'd2: row_bits = 8'b10000100;
+                    3'd3: row_bits = 8'b10000100;
+                    3'd4: row_bits = 8'b10000100;
+                    3'd5: row_bits = 8'b10000100;
+                    3'd6: row_bits = 8'b10000100;
+                    3'd7: row_bits = 8'b01111000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd86: begin // 'V'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10000010;
-                    3'd2: row_bits = 8'b01000100;
-                    3'd3: row_bits = 8'b01000100;
-                    3'd4: row_bits = 8'b01000100;
-                    3'd5: row_bits = 8'b00101000;
-                    3'd6: row_bits = 8'b00101000;
-                    3'd7: row_bits = 8'b00011000;
+                    3'd0: row_bits = 8'b00000100;
+                    3'd1: row_bits = 8'b00000100;
+                    3'd2: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b01010000;
+                    3'd5: row_bits = 8'b01010000;
+                    3'd6: row_bits = 8'b00100000;
+                    3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd87: begin // 'W'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10001000;
+                    3'd0: row_bits = 8'b00001000;
+                    3'd1: row_bits = 8'b00010100;
                     3'd2: row_bits = 8'b10010100;
-                    3'd3: row_bits = 8'b01010101;
-                    3'd4: row_bits = 8'b01010101;
-                    3'd5: row_bits = 8'b01010101;
-                    3'd6: row_bits = 8'b01010101;
-                    3'd7: row_bits = 8'b00100010;
+                    3'd3: row_bits = 8'b10010100;
+                    3'd4: row_bits = 8'b10100010;
+                    3'd5: row_bits = 8'b10100010;
+                    3'd6: row_bits = 8'b01000001;
+                    3'd7: row_bits = 8'b01000001;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd88: begin // 'X'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000100;
-                    3'd2: row_bits = 8'b00101000;
-                    3'd3: row_bits = 8'b00010000;
-                    3'd4: row_bits = 8'b00010000;
-                    3'd5: row_bits = 8'b00101000;
-                    3'd6: row_bits = 8'b01000100;
-                    3'd7: row_bits = 8'b10000010;
+                    3'd0: row_bits = 8'b10000100;
+                    3'd1: row_bits = 8'b01001000;
+                    3'd2: row_bits = 8'b01001000;
+                    3'd3: row_bits = 8'b00110000;
+                    3'd4: row_bits = 8'b00110000;
+                    3'd5: row_bits = 8'b01001000;
+                    3'd6: row_bits = 8'b01001000;
+                    3'd7: row_bits = 8'b10000100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd89: begin // 'Y'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10000010;
+                    3'd0: row_bits = 8'b10000010;
+                    3'd1: row_bits = 8'b01000100;
                     3'd2: row_bits = 8'b01000100;
                     3'd3: row_bits = 8'b00101000;
                     3'd4: row_bits = 8'b00010000;
@@ -762,35 +762,35 @@ module font_rom (
             end
             7'd90: begin // 'Z'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b11111100;
-                    3'd2: row_bits = 8'b00001000;
+                    3'd0: row_bits = 8'b01111100;
+                    3'd1: row_bits = 8'b00001000;
+                    3'd2: row_bits = 8'b00010000;
                     3'd3: row_bits = 8'b00010000;
                     3'd4: row_bits = 8'b00100000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b00100000;
+                    3'd6: row_bits = 8'b01000000;
                     3'd7: row_bits = 8'b11111100;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd91: begin // '['
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01100000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b11000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd92: begin // '\'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b10000000;
                     3'd1: row_bits = 8'b10000000;
-                    3'd2: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b01000000;
                     3'd3: row_bits = 8'b01000000;
                     3'd4: row_bits = 8'b01000000;
                     3'd5: row_bits = 8'b01000000;
@@ -801,8 +801,8 @@ module font_rom (
             end
             7'd93: begin // ']'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b11000000;
+                    3'd0: row_bits = 8'b11000000;
+                    3'd1: row_bits = 8'b01000000;
                     3'd2: row_bits = 8'b01000000;
                     3'd3: row_bits = 8'b01000000;
                     3'd4: row_bits = 8'b01000000;
@@ -814,11 +814,11 @@ module font_rom (
             end
             7'd94: begin // '^'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00100000;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01010000;
                     3'd2: row_bits = 8'b01010000;
-                    3'd3: row_bits = 8'b01010000;
-                    3'd4: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
                     3'd7: row_bits = 8'b00000000;
@@ -840,9 +840,9 @@ module font_rom (
             end
             7'd96: begin // '`'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10000000;
-                    3'd2: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b00000000;
                     3'd3: row_bits = 8'b00000000;
                     3'd4: row_bits = 8'b00000000;
                     3'd5: row_bits = 8'b00000000;
@@ -855,25 +855,25 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00111000;
-                    3'd4: row_bits = 8'b00001000;
-                    3'd5: row_bits = 8'b00111000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01111000;
+                    3'd2: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b01111000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10011000;
+                    3'd7: row_bits = 8'b11101000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd98: begin // 'b'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01110000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10110000;
+                    3'd3: row_bits = 8'b11001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b11001000;
+                    3'd7: row_bits = 8'b10110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -881,25 +881,25 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00110000;
+                    3'd2: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b01110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd100: begin // 'd'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b00001000;
                     3'd1: row_bits = 8'b00001000;
-                    3'd2: row_bits = 8'b00001000;
-                    3'd3: row_bits = 8'b00111000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd2: row_bits = 8'b01101000;
+                    3'd3: row_bits = 8'b10011000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10011000;
+                    3'd7: row_bits = 8'b01101000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -907,21 +907,21 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01111000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd2: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b11111000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b01110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd102: begin // 'f'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b00100000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b11100000;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b11100000;
+                    3'd3: row_bits = 8'b01000000;
                     3'd4: row_bits = 8'b01000000;
                     3'd5: row_bits = 8'b01000000;
                     3'd6: row_bits = 8'b01000000;
@@ -933,46 +933,46 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00111000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd2: row_bits = 8'b11010000;
+                    3'd3: row_bits = 8'b00110000;
+                    3'd4: row_bits = 8'b00010000;
+                    3'd5: row_bits = 8'b00010000;
+                    3'd6: row_bits = 8'b00110000;
+                    3'd7: row_bits = 8'b11010000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd104: begin // 'h'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01001000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10110000;
+                    3'd3: row_bits = 8'b11001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b10001000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd105: begin // 'i'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b00000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd106: begin // 'j'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b10000000;
-                    3'd2: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b00000000;
+                    3'd2: row_bits = 8'b10000000;
                     3'd3: row_bits = 8'b10000000;
                     3'd4: row_bits = 8'b10000000;
                     3'd5: row_bits = 8'b10000000;
@@ -983,11 +983,11 @@ module font_rom (
             end
             7'd107: begin // 'k'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
+                    3'd0: row_bits = 8'b10000000;
                     3'd1: row_bits = 8'b10000000;
-                    3'd2: row_bits = 8'b10000000;
-                    3'd3: row_bits = 8'b10010000;
-                    3'd4: row_bits = 8'b10100000;
+                    3'd2: row_bits = 8'b10010000;
+                    3'd3: row_bits = 8'b10100000;
+                    3'd4: row_bits = 8'b11000000;
                     3'd5: row_bits = 8'b11100000;
                     3'd6: row_bits = 8'b10100000;
                     3'd7: row_bits = 8'b10010000;
@@ -996,14 +996,14 @@ module font_rom (
             end
             7'd108: begin // 'l'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1011,12 +1011,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01111110;
-                    3'd4: row_bits = 8'b01001001;
-                    3'd5: row_bits = 8'b01001001;
-                    3'd6: row_bits = 8'b01001001;
-                    3'd7: row_bits = 8'b01001001;
+                    3'd2: row_bits = 8'b10111100;
+                    3'd3: row_bits = 8'b11010010;
+                    3'd4: row_bits = 8'b10010010;
+                    3'd5: row_bits = 8'b10010010;
+                    3'd6: row_bits = 8'b10010010;
+                    3'd7: row_bits = 8'b10010010;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1024,12 +1024,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01001000;
+                    3'd2: row_bits = 8'b11110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b10001000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1037,12 +1037,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00110000;
+                    3'd2: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b01110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1050,12 +1050,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01110000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b01110000;
+                    3'd2: row_bits = 8'b10110000;
+                    3'd3: row_bits = 8'b11001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b11001000;
+                    3'd7: row_bits = 8'b10110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1063,12 +1063,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b00111000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd2: row_bits = 8'b01101000;
+                    3'd3: row_bits = 8'b10011000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10011000;
+                    3'd7: row_bits = 8'b01101000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1076,12 +1076,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01100000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd2: row_bits = 8'b10100000;
+                    3'd3: row_bits = 8'b11000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1089,25 +1089,25 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01110000;
-                    3'd4: row_bits = 8'b10000000;
-                    3'd5: row_bits = 8'b01100000;
-                    3'd6: row_bits = 8'b00010000;
-                    3'd7: row_bits = 8'b11100000;
+                    3'd2: row_bits = 8'b01110000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b01100000;
+                    3'd5: row_bits = 8'b00010000;
+                    3'd6: row_bits = 8'b10001000;
+                    3'd7: row_bits = 8'b01110000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd116: begin // 't'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b11100000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01100000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b11000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b11000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1115,12 +1115,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b01001000;
-                    3'd4: row_bits = 8'b01001000;
-                    3'd5: row_bits = 8'b01001000;
-                    3'd6: row_bits = 8'b01001000;
-                    3'd7: row_bits = 8'b00111000;
+                    3'd2: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b10001000;
+                    3'd4: row_bits = 8'b10001000;
+                    3'd5: row_bits = 8'b10001000;
+                    3'd6: row_bits = 8'b10011000;
+                    3'd7: row_bits = 8'b01101000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1128,11 +1128,11 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
+                    3'd2: row_bits = 8'b10001000;
                     3'd3: row_bits = 8'b10001000;
                     3'd4: row_bits = 8'b01010000;
                     3'd5: row_bits = 8'b01010000;
-                    3'd6: row_bits = 8'b01010000;
+                    3'd6: row_bits = 8'b00100000;
                     3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
@@ -1141,12 +1141,12 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b10010010;
-                    3'd4: row_bits = 8'b10101010;
-                    3'd5: row_bits = 8'b10101010;
-                    3'd6: row_bits = 8'b10101010;
-                    3'd7: row_bits = 8'b01000100;
+                    3'd2: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b10010100;
+                    3'd4: row_bits = 8'b01010101;
+                    3'd5: row_bits = 8'b01010101;
+                    3'd6: row_bits = 8'b00100010;
+                    3'd7: row_bits = 8'b00100010;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1154,9 +1154,9 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b10001000;
-                    3'd4: row_bits = 8'b01010000;
+                    3'd2: row_bits = 8'b10001000;
+                    3'd3: row_bits = 8'b01010000;
+                    3'd4: row_bits = 8'b00100000;
                     3'd5: row_bits = 8'b00100000;
                     3'd6: row_bits = 8'b01010000;
                     3'd7: row_bits = 8'b10001000;
@@ -1167,11 +1167,11 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
+                    3'd2: row_bits = 8'b10001000;
                     3'd3: row_bits = 8'b10001000;
                     3'd4: row_bits = 8'b01010000;
                     3'd5: row_bits = 8'b01010000;
-                    3'd6: row_bits = 8'b01010000;
+                    3'd6: row_bits = 8'b00100000;
                     3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
@@ -1180,9 +1180,9 @@ module font_rom (
                 case (row)
                     3'd0: row_bits = 8'b00000000;
                     3'd1: row_bits = 8'b00000000;
-                    3'd2: row_bits = 8'b00000000;
-                    3'd3: row_bits = 8'b11111000;
-                    3'd4: row_bits = 8'b00010000;
+                    3'd2: row_bits = 8'b11111000;
+                    3'd3: row_bits = 8'b00010000;
+                    3'd4: row_bits = 8'b00100000;
                     3'd5: row_bits = 8'b00100000;
                     3'd6: row_bits = 8'b01000000;
                     3'd7: row_bits = 8'b11111000;
@@ -1191,12 +1191,12 @@ module font_rom (
             end
             7'd123: begin // '{'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01100000;
+                    3'd0: row_bits = 8'b00100000;
+                    3'd1: row_bits = 8'b01000000;
                     3'd2: row_bits = 8'b01000000;
                     3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b01000000;
                     3'd6: row_bits = 8'b01000000;
                     3'd7: row_bits = 8'b01000000;
                     default: row_bits = 8'b00000000;
@@ -1204,27 +1204,27 @@ module font_rom (
             end
             7'd124: begin // '|'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b01000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
-                    3'd5: row_bits = 8'b01000000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b10000000;
+                    3'd1: row_bits = 8'b10000000;
+                    3'd2: row_bits = 8'b10000000;
+                    3'd3: row_bits = 8'b10000000;
+                    3'd4: row_bits = 8'b10000000;
+                    3'd5: row_bits = 8'b10000000;
+                    3'd6: row_bits = 8'b10000000;
+                    3'd7: row_bits = 8'b10000000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
             7'd125: begin // '}'
                 case (row)
-                    3'd0: row_bits = 8'b00000000;
-                    3'd1: row_bits = 8'b11000000;
-                    3'd2: row_bits = 8'b01000000;
-                    3'd3: row_bits = 8'b01000000;
-                    3'd4: row_bits = 8'b01000000;
+                    3'd0: row_bits = 8'b01000000;
+                    3'd1: row_bits = 8'b00100000;
+                    3'd2: row_bits = 8'b00100000;
+                    3'd3: row_bits = 8'b00100000;
+                    3'd4: row_bits = 8'b00010000;
                     3'd5: row_bits = 8'b00100000;
-                    3'd6: row_bits = 8'b01000000;
-                    3'd7: row_bits = 8'b01000000;
+                    3'd6: row_bits = 8'b00100000;
+                    3'd7: row_bits = 8'b00100000;
                     default: row_bits = 8'b00000000;
                 endcase
             end
@@ -1234,7 +1234,7 @@ module font_rom (
                     3'd1: row_bits = 8'b00000000;
                     3'd2: row_bits = 8'b00000000;
                     3'd3: row_bits = 8'b11101000;
-                    3'd4: row_bits = 8'b10111000;
+                    3'd4: row_bits = 8'b10110000;
                     3'd5: row_bits = 8'b00000000;
                     3'd6: row_bits = 8'b00000000;
                     3'd7: row_bits = 8'b00000000;

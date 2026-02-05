@@ -19,10 +19,10 @@ module pong_logic (
     output reg [9:0] pdl2_ypos = 191,
 
     // Game logic
-    output reg sq_shown = 1'b1      // Whether or not square should be shown
-    output reg [3:0] score_p1 = 0;  // Player 1's score
-    output reg [3:0] score_p2 = 0;  // Player 2's score
-    output reg game_over = 1'b0;    // Whether or not the game is over
+    output reg sq_shown = 1'b1,     // Whether or not square should be shown
+    output reg [3:0] score_p1 = 0,  // Player 1's score
+    output reg [3:0] score_p2 = 0,  // Player 2's score
+    output reg game_over = 1'b0     // Whether or not the game is over
     );
 
     parameter h_video = 640;        // Horizontal active video (in pixels)
@@ -57,7 +57,26 @@ module pong_logic (
     parameter max_score = 11;               // The max score before game over
 
     always @ (posedge clk_0, negedge rst) begin
-        if (!rst || game_over) begin        // If we reset or the game is over
+        if (!rst) begin        // If we reset
+            // Reset the score and sprites' positions and velocities
+            sq_xpos <= h_video /2;
+            sq_ypos <= v_video /2;
+            sq_vel_count <= 0;
+            pdl1_vel_count <= 0;
+            pdl2_vel_count <= 0;
+            sq_xvel <= 1'b0;
+            sq_yvel <= 1'b0;
+            pdl1_xpos <= 24;
+            pdl1_ypos <= 191;
+            pdl2_xpos <= 603;
+            pdl2_ypos <= 191;
+            sq_shown <= 1'b0;
+            sq_missed <= 1'b1;
+            delay_count <= 0;
+            score_p1 <= 0;
+            score_p2 <= 0;
+            game_over <= 1'b0;
+        end else if (game_over) begin   // If the game is over
             // Reset the score and sprites' positions and velocities
             sq_xpos <= h_video /2;
             sq_ypos <= v_video /2;
@@ -85,7 +104,7 @@ module pong_logic (
                 sq_vel_count <= 0;
                 sq_xvel <= 1'b0;
                 sq_yvel <= 1'b0;
-                if (score_p1 < max_score) begin
+                if (score_p1 < max_score - 1) begin
                     score_p1 <= score_p1 + 1;
                     game_over <= 1'b0;
                 end else begin
@@ -100,7 +119,7 @@ module pong_logic (
                 sq_vel_count <= 0;
                 sq_xvel <= 1'b0;
                 sq_yvel <= 1'b0;
-                if (score_p2 < max_score) begin
+                if (score_p2 < max_score - 1) begin
                     score_p2 <= score_p2 + 1;
                     game_over <= 1'b0;
                 end else begin

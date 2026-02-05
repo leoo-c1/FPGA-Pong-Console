@@ -6,8 +6,8 @@ module startup_text #(
     parameter TITLE_X = 320 - 1.5*KERNING - 12*TITLE_SCALE,
     parameter TITLE_Y = 99,
     // Coordinates for top left of the 'P' in 'Press any key to start'
-    parameter START_X = TITLE_X - 72*START_SCALE - 8*KERNING,
-    parameter START_Y = TITLE_Y - 8 - 4 + 1
+    parameter START_X = 320 - 66*START_SCALE - 10*KERNING,
+    parameter START_Y = TITLE_Y + 8*TITLE_SCALE + 4 - 1
 
 ) (
     input clk_0,
@@ -22,8 +22,8 @@ module startup_text #(
 
     // Generate string 'PONG'
     string_display #(
-        .SCALE(8),
-        .KERNING(4),
+        .SCALE(TITLE_SCALE),
+        .KERNING(KERNING),
         .LEN(4),
         .TEXT("PONG")
     ) title (
@@ -36,16 +36,20 @@ module startup_text #(
 
     // Generate string 'Press any key to start'
     string_display #(
-        .SCALE(6),
-        .KERNING(4),
+        .SCALE(START_SCALE),
+        .KERNING(KERNING),
         .LEN(22),
         .TEXT("Press any key to start")
-    ) title (
+    ) start (
         .clk_0(clk_0),
         .rst(rst),
         .pixel_x(pixel_x), .pixel_y(pixel_y),
         .x_pos(START_X), .y_pos(START_Y),
         .pixel_on(in_start)
     );
+
+    always @ (posedge clk_0) begin
+        in_text <= (in_title | in_start);
+    end
 
 endmodule

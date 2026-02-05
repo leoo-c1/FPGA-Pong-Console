@@ -33,10 +33,11 @@ graph LR
 
 ## Components
 
-1.  **`pong_logic.v`** acts as the "CPU" of the console. It handles 2D velocity vectors, wall/paddle collision checks, score tracking (up to 11), and the game state machine (Startup -> Active -> Game Over).
-2.  **`pong_renderer.v`** acts as the "GPU" of the console. It performs real-time sprite compositing, drawing the ball, paddles, net, and score digits based on the current pixel coordinate.
-3.  **`rtl/core/`** contains reusable modules including the Sync Generator (`vga_sync.v`) and Font ROM drivers for displaying text.
-4.  **`rtl/inputs/`** contains hardware debouncers that filter noise from physical buttons before passing signals to the game logic.
+1. **`pong_engine_top.v`** is the top-level module. It instantiates the PLL, interconnects the Game Engine with the Renderer, and maps internal signals to the FPGA's physical I/O pins.
+2.  **`pong_logic.v`** acts as the "CPU" of the console. It handles 2D velocity vectors, wall/paddle collision checks, score tracking (up to 11), and the game state machine (Startup -> Active -> Game Over).
+3.  **`pong_renderer.v`** acts as the "GPU" of the console. It performs real-time sprite compositing, drawing the ball, paddles, net, and score digits based on the current pixel coordinate.
+4.  **`rtl/core/`** contains reusable modules including the Sync Generator (`vga_sync.v`) and Font ROM drivers for displaying text.
+5.  **`rtl/inputs/`** contains hardware debouncers that filter noise from physical buttons before passing signals to the game logic.
 
 ## Features
 
@@ -77,6 +78,8 @@ The project was originally designed for the Intel Cyclone IV EP4CE6E22C8N FPGA o
 ├── rtl/
 │   ├── core/              # Reusable System IPs (VGA, Fonts, PLL)
 │   ├── game/              # Pong Logic & Rendering
+│   │   ├── pong_engine_top.v  # <--- Top Level Module (Set as Top Entity in Quartus)
+│   │   └── ...
 │   └── inputs/            # Button Debouncers & Input Drivers
 └── software/              # Python script for font/ROM generation
 ```

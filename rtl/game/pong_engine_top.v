@@ -40,6 +40,9 @@ module pong_engine_top #(
     wire [9:0] paddle2_ypos;
 
     wire sq_shown;
+    wire [3:0] score_p1;
+    wire [3:0] score_p2;
+    wire game_over;
 
     // Debounced button signals
     wire [BUTTONS-1:0] debounced_signal;
@@ -76,7 +79,10 @@ module pong_engine_top #(
         .pdl1_ypos(paddle1_ypos),
         .pdl2_xpos(paddle2_xpos),
         .pdl2_ypos(paddle2_ypos),
-        .sq_shown(sq_shown)
+        .sq_shown(sq_shown),
+        .score_p1(score_p1),
+        .score_p2(score_p2),
+        .game_over(game_over)
     );
 
     pong_renderer game_scene (
@@ -92,6 +98,9 @@ module pong_engine_top #(
         .paddle2_xpos(paddle2_xpos),
         .paddle2_ypos(paddle2_ypos),
         .sq_shown(sq_shown),
+        .score_p1(score_p1),
+        .score_p2(score_p2),
+        .game_over(game_over),
         .red(red),
         .green(green),
         .blue(blue)

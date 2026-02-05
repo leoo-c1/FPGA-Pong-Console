@@ -1,5 +1,5 @@
 module pong_logic (
-    input clk_0,            // 25MHz clock
+    input clk_0,            // 25.175MHz clock
     input rst,              // Reset button
 
     // Player inputs (active low buttons)

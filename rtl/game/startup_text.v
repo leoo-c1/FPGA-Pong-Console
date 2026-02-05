@@ -1,13 +1,13 @@
 module startup_text #(
-    parameter KERNING = 4,
-    parameter TITLE_SCALE = 6,
-    parameter START_SCALE = 4,
+    parameter KERNING = 0,
+    parameter TITLE_SCALE = 8,
+    parameter START_SCALE = 3,
     // Coordinates for top left of the 'P' in 'PONG' so the word is centered
     parameter TITLE_X = 320 - 3*KERNING/2 - 12*TITLE_SCALE,
     parameter TITLE_Y = 99,
     // Coordinates for top left of the 'P' in 'Press any key to start'
     parameter START_X = 320 - 66*START_SCALE - 10*KERNING,
-    parameter START_Y = TITLE_Y + 8*TITLE_SCALE + 4 - 1
+    parameter START_Y = TITLE_Y + 8*TITLE_SCALE + 20 - 1
 
 ) (
     input clk_0,

@@ -3,7 +3,7 @@ module startup_text #(
     parameter TITLE_SCALE = 6,
     parameter START_SCALE = 4,
     // Coordinates for top left of the 'P' in 'PONG' so the word is centered
-    parameter TITLE_X = 320 - 1.5*KERNING - 12*TITLE_SCALE,
+    parameter TITLE_X = 320 - 3*KERNING/2 - 12*TITLE_SCALE,
     parameter TITLE_Y = 99,
     // Coordinates for top left of the 'P' in 'Press any key to start'
     parameter START_X = 320 - 66*START_SCALE - 10*KERNING,

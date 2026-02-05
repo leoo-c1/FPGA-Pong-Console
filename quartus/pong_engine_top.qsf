@@ -84,4 +84,8 @@ set_location_assignment PIN_89 -to button[1]
 set_location_assignment PIN_90 -to button[2]
 set_location_assignment PIN_91 -to button[3]
 set_global_assignment -name VERILOG_FILE ../rtl/game/score_display.v
+set_global_assignment -name VERILOG_FILE ../rtl/core/font_rom.v
+set_global_assignment -name VERILOG_FILE ../rtl/core/string_display.v
+set_global_assignment -name VERILOG_FILE ../rtl/core/text_display.v
+set_global_assignment -name VERILOG_FILE ../rtl/game/startup_text.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

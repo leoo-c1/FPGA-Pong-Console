@@ -100,9 +100,13 @@ module pong_logic (
             delay_count <= 0;
             score_p1 <= 0;
             score_p2 <= 0;
-            game_over <= 1'b0;
-            game_startup <= 1'b1;
+            game_over <= 1'b1;
+            game_startup <= 1'b0;
             safe_start_count <= 0;
+            // Stay in game over until user presses buttons
+            if (!up_p1 || !down_p1 || !up_p2 || !down_p2) begin
+                    game_over <= 1'b0;
+                    end
         end else if (game_startup) begin    // If we're on the startup menu
             // Reset the score and sprites' positions and velocities
             sq_xpos <= h_video /2;

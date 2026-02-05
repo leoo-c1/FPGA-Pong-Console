@@ -6,20 +6,18 @@ module pong_renderer (
     input [9:0] pixel_y,    // Vertical position of pixel
     input video_on,         // Whether or not we are in the active video region
 
-    // The x-coordinate of the top left corner of the square
+    // Coordinates for the top left corner of each sprite
     input wire [9:0] square_xpos,
-    // The y-coordinate of the top left corner of the square
     input wire [9:0] square_ypos,
 
-    // The x-coordinate of the top left corner of paddle 1
     input wire [9:0] paddle1_xpos,
-    // The y-coordinate of the top left corner of paddle 1
     input wire [9:0] paddle1_ypos,
 
-    // The x-coordinate of the top left corner of paddle 2
     input wire [9:0] paddle2_xpos,
-    // The y-coordinate of the top left corner of paddle 2
     input wire [9:0] paddle2_ypos,
+
+    // Game states
+    input wire sq_shown,    // Whether the square should be shown or not
 
     output reg red,         // Red colour (either 0v or 0.7v)
     output reg green,       // Green colour (either 0v or 0.7v)
@@ -127,7 +125,7 @@ module pong_renderer (
         end
 
         // If we are inside a sprite, make the pixel white
-        if (in_paddle1 || in_paddle2 || in_square || in_net) begin
+        if (in_paddle1 || in_paddle2 || (in_square && sq_shown) || in_net) begin
             red <= 1'b1;
             green <= 1'b1;
             blue <= 1'b1;

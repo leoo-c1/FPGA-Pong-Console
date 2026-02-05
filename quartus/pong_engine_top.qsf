@@ -88,4 +88,5 @@ set_global_assignment -name VERILOG_FILE ../rtl/core/font_rom.v
 set_global_assignment -name VERILOG_FILE ../rtl/core/string_display.v
 set_global_assignment -name VERILOG_FILE ../rtl/core/text_display.v
 set_global_assignment -name VERILOG_FILE ../rtl/game/startup_text.v
+set_global_assignment -name VERILOG_FILE ../rtl/game/game_over.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

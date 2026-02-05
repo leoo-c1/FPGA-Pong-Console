@@ -9,7 +9,7 @@ module score_display (
     input [9:0] y_pos,      // y-coordinate of the top left corner of the number
     input [3:0] number,     // The digit to draw (0-9)
     
-    output reg pixel_on = 1'b0;     // 1 if the current pixel is part of the number
+    output reg pixel_on = 1'b0  // 1 if the current pixel is part of the number
     );
 
     parameter WIDTH = 4;        // Width of the bitmap

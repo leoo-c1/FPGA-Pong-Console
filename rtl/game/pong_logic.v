@@ -60,13 +60,19 @@ module pong_logic (
     parameter VEL_WIDTH = $clog2(MAX_VEL + 1);  // Width of velocity register
     wire [VEL_WIDTH-1:0] sq_xvel;
     wire [VEL_WIDTH-1:0] sq_yvel;
+
     // Accumulators to store partial pixel progress.
     parameter VEL_THRESHOLD = 25_175_000;
     reg [24:0] x_acc = 0;
     reg [24:0] y_acc = 0;
     reg sq_xveldir = 1'b0;          // Square's direction of velocity along x, 0 = left, 1 = right
     reg sq_yveldir = 1'b0;          // Square's direction of velocity along y, 0 = up, 1 = down
+
     reg paddle_hit = 1'b0;          // Whether or not we just hit a paddle
+    wire [9:0] sq_cent_y = sq_ypos + sq_width/2;        // Center of square
+    wire [9:0] pdl1_cent_y = pdl1_ypos + pdl_height/2;  // Center of Left paddle
+    wire [9:0] pdl2_cent_y = pdl2_ypos + pdl_height/2;  // Center of Right paddle
+
 
     velocity_mapper #(
         .MIN_VEL(MIN_VEL), .MAX_VEL(MAX_VEL),
@@ -189,7 +195,6 @@ module pong_logic (
                 // Check if the top/bottom right corner of the square hits the paddle
                 if (sq_ypos <= pdl2_ypos + pdl_height && 
                     sq_ypos + sq_width >= pdl2_ypos) begin
-                    paddle_hit <= 1'b1;
                     // Check if top of the square is hitting the bottom of the paddle
                     if (sq_ypos == pdl2_ypos + pdl_height ||
                         sq_ypos == pdl2_ypos + pdl_height - 1) begin
@@ -205,15 +210,26 @@ module pong_logic (
                         hit_y <= pdl_height/2;
 
                     end else begin
+                        paddle_hit <= 1'b1;
                         sq_xveldir <= ~sq_xveldir;  // Change direction along x-axis
                         sq_xpos <= sq_xpos - 1;     // Move to the left by one pixel
+
                         // Check if the square hits below the paddle's centre
-                        if (sq_ypos >= pdl2_ypos + pdl_height/2) begin
-                            hit_y <= sq_ypos - pdl2_ypos - pdl_height/2 + 1;
-                            sq_yveldir <= 1'b1;
+                        if (sq_cent_y >= pdl2_cent_y) begin
+                            sq_yveldir <= 1'b1;     // Send the square down
+                            // Calculate Distance
+                            if ((sq_cent_y - pdl2_cent_y) > pdl_height/2)
+                                hit_y <= pdl_height/2; // Clamp to max range
+                            else
+                                hit_y <= sq_cent_y - pdl2_cent_y;
+
                         end else begin // If we are at/above the paddle's centre
-                            hit_y <= pdl2_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
-                            sq_yveldir <= 1'b0;
+                            sq_yveldir <= 1'b0;     // Send the square up
+                            // Calculate Distance
+                            if ((pdl2_cent_y - sq_cent_y) > pdl_height/2)
+                                hit_y <= pdl_height/2; // Clamp to max range
+                            else
+                                hit_y <= pdl2_cent_y - sq_cent_y;
                         end
                     end
                 end
@@ -225,7 +241,6 @@ module pong_logic (
                 // If top/bottom left corner of the square is hitting the left paddle's right side
                 if (sq_ypos <= pdl1_ypos + pdl_height && 
                     sq_ypos + sq_width >= pdl1_ypos) begin
-                    paddle_hit <= 1'b1;
                     // Check if top of the square is hitting the bottom of the paddle
                     if (sq_ypos == pdl1_ypos + pdl_height ||
                         sq_ypos == pdl1_ypos + pdl_height - 1) begin
@@ -241,15 +256,26 @@ module pong_logic (
                         hit_y <= pdl_height/2;
 
                     end else begin
+                        paddle_hit <= 1'b1;
                         sq_xveldir <= ~sq_xveldir;  // Change direction along y-axis
                         sq_xpos <= sq_xpos + 1;     // Move to the right one pixel
+
                         // Check if the square hits below the paddle's centre
-                        if (sq_ypos >= pdl1_ypos + pdl_height/2) begin
-                            hit_y <= sq_ypos - pdl1_ypos - pdl_height/2 + 1;
-                            sq_yveldir <= 1'b1;
+                        if (sq_cent_y >= pdl1_cent_y) begin
+                            sq_yveldir <= 1'b1;     // Send the square down
+                            // Calculate distance
+                            if ((sq_cent_y - pdl1_cent_y) > pdl_height/2)
+                                hit_y <= pdl_height/2;
+                            else
+                                hit_y <= sq_cent_y - pdl1_cent_y;
+
                         end else begin // If we are at/above the paddle's centre
-                            hit_y <= pdl1_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
-                            sq_yveldir <= 1'b0;
+                            sq_yveldir <= 1'b0;     // Send the square up
+                            // Calculate distance
+                            if ((pdl1_cent_y - sq_cent_y) > pdl_height/2)
+                                hit_y <= pdl_height/2;
+                            else
+                                hit_y <= pdl1_cent_y - sq_cent_y;
                         end
                     end
                 end

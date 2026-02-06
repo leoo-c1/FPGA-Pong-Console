@@ -223,6 +223,7 @@ module pong_logic (
                             hit_y <= sq_ypos - padl2_ypos - pdl_height/2 + 1;
                             above_centre <= 1'b0;
                             below_centre <= 1'b1;
+                            sq_yveldir <= 1'b1;
                         end else begin // If we are at/above the paddle's centre
                             hit_y <= padl2_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
                             above_centre <= 1'b1;
@@ -232,6 +233,7 @@ module pong_logic (
                 end
 
             // Square collision with left paddle
+            // Check if the left/right side of the square hits
             end else if (sq_xpos <= pdl1_xpos + pdl_width + 1 && 
                         sq_xpos + sq_width >= pdl1_xpos) begin
                 // If top/bottom left corner of the square is hitting the left paddle's right side

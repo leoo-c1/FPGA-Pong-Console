@@ -1,6 +1,7 @@
 module velocity_mapper #(
-    parameter MIN_VEL = 200,    // Used for reset, square missed, centre hit, startup and game over
-    parameter MAX_VEL = 400     // Maximum velocity in pixels/second for edge hits
+    parameter MIN_VEL = 400,    // Used for reset, square missed, centre hit, startup and game over
+    parameter MAX_VEL = 600,    // Maximum velocity in pixels/second for edge hits
+    parameter VEL_WIDTH = $clog2(MAX_VEL + 1)   // Width of velocity register
     ) (
     input clk_0,                // 25.175MHz clock
     input rst,                  // Reset key
@@ -12,8 +13,8 @@ module velocity_mapper #(
     input game_over,            // Whether or not the game is over
     input game_startup,         // Whether or not the game is on the startup menu
 
-    output reg [8:0] sq_xvel,   // Squares's horizontal velocity in pixels/second
-    output reg [8:0] sq_yvel    // Squares's vertical velocity in pixels/second
+    output reg [VEL_WIDTH-1:0] sq_xvel,     // Squares's horizontal velocity in pixels/second
+    output reg [VEL_WIDTH-1:0] sq_yvel      // Squares's vertical velocity in pixels/second
     );
 
     parameter pdl_height = 96;

@@ -5,7 +5,7 @@ module velocity_mapper #(
     input clk_0,                // 25.175MHz clock
     input rst,                  // Reset key
 
-    input wire [6:0] hit_y,     // The distance from paddle centre to the ball during a hit
+    input wire [6:0] hit_y,     // The distance from paddle centre to the square during a hit
 
     input sq_missed,            // Whether or not the square went out of bounds
     input game_over,            // Whether or not the game is over

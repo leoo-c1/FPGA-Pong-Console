@@ -27,6 +27,7 @@ module pong_logic (
     output reg [3:0] score_p2 = 0,  // Player 2's score
     output reg game_over = 1'b0,    // Whether or not the game is over
     output reg game_startup = 1'b1, // Whether or not the game is on the startup menu
+    output reg sq_missed = 1'b1,    // If the we miss the square and it hits the left/right side
 
     // Ball collision point
     output reg [6:0] hit_y,         // The distance from paddle centre to the ball during a hit
@@ -58,9 +59,6 @@ module pong_logic (
     reg [18:0] pdl2_vel_count = 0;                  // Right paddle's velocity ticker
     reg pdl1_yvel = 1'b0;           // Left paddle's velocity direction along y, 0 = up, 1 = down
     reg pdl2_yvel = 1'b0;           // Right paddle's velocity direction along y, 0 = up, 1 = down
-
-    // Game states
-    reg sq_missed = 1'b1;           // If the we miss the square and it hits the left/right side
 
     parameter delay_s = 2;                  // Delay on startup/point won/lost (seconds)
     parameter delay = 25_176_056*delay_s;   // Same delay in 25.175MHz clock cycles

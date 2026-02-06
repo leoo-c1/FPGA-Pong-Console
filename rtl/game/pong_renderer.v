@@ -92,7 +92,7 @@ module pong_renderer (
     );
 
     // Detect paddle 2
-    rect_renderer #(.WIDTH(paddle_width), .HEIGHT(paddle_height)) draw_p1 (
+    rect_renderer #(.WIDTH(paddle_width), .HEIGHT(paddle_height)) draw_p2 (
         .pixel_x(pixel_x), .pixel_y(pixel_y),
         .rect_x(paddle2_xpos), .rect_y(paddle2_ypos),
         .is_active(in_paddle2_raw)

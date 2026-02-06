@@ -31,8 +31,6 @@ module pong_logic (
 
     // Ball collision point
     output reg [6:0] hit_y,         // The distance from paddle centre to the ball during a hit
-    output reg above_centre,        // Whether or not the ball hit above the paddle's centre
-    output reg below_centre,        // Whether or not the ball hit below the paddle's centre
     );
 
     parameter h_video = 640;        // Horizontal active video (in pixels)
@@ -203,8 +201,6 @@ module pong_logic (
                         sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
                         sq_ypos <= sq_ypos + 1;     // Move down one pixel
                         hit_y <= pdl_height/2
-                        above_centre <= 1'b0;
-                        below_centre <= 1'b1;
                     
                     // Check if bottom of the square is hitting the top of the paddle
                     end else if (sq_ypos + sq_width == pdl2_ypos || 
@@ -212,8 +208,6 @@ module pong_logic (
                         sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
                         sq_ypos <= sq_ypos - 1;     // Move up by one pixel
                         hit_y <= pdl_height/2
-                        above_centre <= 1'b1;
-                        below_centre <= 1'b0;
 
                     end else begin
                         sq_xveldir <= ~sq_xveldir;  // Change direction along x-axis
@@ -221,13 +215,9 @@ module pong_logic (
                         // Check if the square hits below the paddle's centre
                         if (sq_ypos >= padl2_ypos + pdl_height/2) begin
                             hit_y <= sq_ypos - padl2_ypos - pdl_height/2 + 1;
-                            above_centre <= 1'b0;
-                            below_centre <= 1'b1;
                             sq_yveldir <= 1'b1;
                         end else begin // If we are at/above the paddle's centre
                             hit_y <= padl2_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
-                            above_centre <= 1'b1;
-                            below_centre <= 1'b0;
                             sq_yveldir <= 1'b0;
                         end
                     end
@@ -246,8 +236,6 @@ module pong_logic (
                         sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
                         sq_ypos <= sq_ypos + 1;     // Move down one pixel
                         hit_y <= pdl_height/2
-                        above_centre <= 1'b0;
-                        below_centre <= 1'b1;
                     
                     // Check if bottom of the square is hitting the top of the paddle
                     end else if (sq_ypos + sq_width == pdl1_ypos || 
@@ -255,8 +243,6 @@ module pong_logic (
                         sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
                         sq_ypos <= sq_ypos - 1;     // Move up by one pixel
                         hit_y <= pdl_height/2
-                        above_centre <= 1'b1;
-                        below_centre <= 1'b0;
 
                     end else begin
                         sq_xveldir <= ~sq_xveldir;  // Change direction along y-axis
@@ -264,13 +250,9 @@ module pong_logic (
                         // Check if the square hits below the paddle's centre
                         if (sq_ypos >= padl1_ypos + pdl_height/2) begin
                             hit_y <= sq_ypos - padl1_ypos - pdl_height/2 + 1;
-                            above_centre <= 1'b0;
-                            below_centre <= 1'b1;
                             sq_yveldir <= 1'b1;
                         end else begin // If we are at/above the paddle's centre
                             hit_y <= padl1_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
-                            above_centre <= 1'b1;
-                            below_centre <= 1'b0;
                             sq_yveldir <= 1'b0;
                         end
                     end

@@ -12,11 +12,11 @@ module pong_logic (
     output reg [9:0] sq_xpos = h_video /2,
     output reg [9:0] sq_ypos = v_video/2,
 
-    output reg [9:0] pdl1_xpos = 24,
-    output reg [9:0] pdl1_ypos = 191,
+    output wire [9:0] pdl1_xpos,
+    output wire [9:0] pdl1_ypos,
 
-    output reg [9:0] pdl2_xpos = 603,
-    output reg [9:0] pdl2_ypos = 191,
+    output wire [9:0] pdl2_xpos,
+    output wire [9:0] pdl2_ypos,
 
     // Game states
     output reg sq_shown = 1'b1,     // Whether or not square should be shown
@@ -25,8 +25,6 @@ module pong_logic (
     output reg game_over = 1'b0,    // Whether or not the game is over
     output reg game_startup = 1'b1, // Whether or not the game is on the startup menu
     output reg sq_missed = 1'b1,    // If the we miss the square and it hits the left/right side
-
-    // Square collision point
     output reg [6:0] hit_y = 0      // The distance from paddle centre to the square during a hit
     );
 
@@ -35,10 +33,29 @@ module pong_logic (
 
     parameter sq_width = 16;        // The side lengths of the square
     parameter pdl_width = 12;       // The thickness of the paddle
-    parameter pdl_height = 96;      // The height of the paddle 
+    parameter pdl_height = 96;      // The height of the paddle
+
+    // Control paddle movement
+    paddle_control #(
+        .START_X(24)
+        ) p1_move (
+        .clk(clk_0), .rst(rst),
+        .reset_game(game_startup | game_over),
+        .move_up(up_p1), .move_down(down_p1),
+        .x_pos(pdl1_xpos), .y_pos(pdl1_ypos)
+    );
+
+    paddle_control #(
+        .START_X(603)
+        ) p2_move (
+        .clk(clk_0), .rst(rst),
+        .reset_game(game_startup | game_over),
+        .move_up(up_p2), .move_down(down_p2),
+        .x_pos(pdl2_xpos), .y_pos(pdl2_ypos)
+    );
 
     // Square velocity setup
-    parameter MIN_VEL = 300;    // Used for reset, square missed, centre hit, startup and game over
+    parameter MIN_VEL = 400;    // Used for reset, square missed, centre hit, startup and game over
     parameter MAX_VEL = 500;    // Maximum velocity in pixels/second for edge hits
     parameter VEL_WIDTH = $clog2(MAX_VEL + 1);  // Width of velocity register
     wire [VEL_WIDTH-1:0] sq_xvel;
@@ -62,14 +79,6 @@ module pong_logic (
         .sq_xvel(sq_xvel), .sq_yvel(sq_yvel)
     );
 
-    // Paddle velocity setup
-    parameter pdl_vel = 600;                        // Paddles' velocities in pixels/second
-    parameter pdl_vel_psc = 25_175_000/pdl_vel;     // Clock prescaler for paddles' velocities
-    reg [18:0] pdl1_vel_count = 0;                  // Left paddle's velocity ticker
-    reg [18:0] pdl2_vel_count = 0;                  // Right paddle's velocity ticker
-    reg pdl1_yvel = 1'b0;           // Left paddle's velocity direction along y, 0 = up, 1 = down
-    reg pdl2_yvel = 1'b0;           // Right paddle's velocity direction along y, 0 = up, 1 = down
-
     parameter delay_s = 2;                  // Delay on startup/point won/lost (seconds)
     parameter delay = 25_176_056*delay_s;   // Same delay in 25.175MHz clock cycles
     reg [26:0] delay_count = 0;             // Counts delay time
@@ -88,14 +97,8 @@ module pong_logic (
             y_acc <= 0;
             paddle_hit <= 1'b0;
             hit_y <= 0;
-            pdl1_vel_count <= 0;
-            pdl2_vel_count <= 0;
             sq_xveldir <= 1'b0;
             sq_yveldir <= 1'b0;
-            pdl1_xpos <= 24;
-            pdl1_ypos <= 191;
-            pdl2_xpos <= 603;
-            pdl2_ypos <= 191;
             sq_shown <= 1'b0;
             sq_missed <= 1'b1;
             delay_count <= 0;
@@ -118,7 +121,7 @@ module pong_logic (
             game_startup <= 1'b0;
             safe_start_count <= 0;
             // Stay in game over until user presses buttons
-            if (!up_p1 || !down_p1 || !up_p2 || !down_p2) begin
+            if (up_p1 || down_p1 || up_p2 || down_p2) begin
                     game_over <= 1'b0;
                     end
         end else if (game_startup) begin    // If we're on the startup menu
@@ -132,7 +135,7 @@ module pong_logic (
                 game_startup <= 1'b1;
             // Only check buttons if the timer is finished
             end else begin 
-                    if (!up_p1 || !down_p1 || !up_p2 || !down_p2) begin
+                    if (up_p1 || down_p1 || up_p2 || down_p2) begin
                     game_startup <= 1'b0;
                     end
             end
@@ -284,61 +287,7 @@ module pong_logic (
                     sq_ypos <= sq_ypos + 2*sq_yveldir - 1;  // sq_yveldir: 0 = up, 1 = down
                 end
             end
-            
 
-            // Control left paddle's x and y position
-            if (!up_p1) begin           // If player 1 presses up
-                if (down_p1) begin      // And is not pressing down at the same time
-                    pdl1_yvel <= 0;
-                    if (pdl1_vel_count < pdl_vel_psc) begin
-                        pdl1_vel_count <= pdl1_vel_count + 1;
-                    end else begin              // Increment paddle position every velocity tick
-                        pdl1_vel_count <= 0;
-                        // Make sure we aren't at the top of the screen
-                        if (pdl1_ypos > 0) begin
-                            pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
-                        end
-                    end
-                end
-            end else if (!down_p1) begin    // If player 1 presses down and wasn't pressing up
-                pdl1_yvel <= 1;
-                if (pdl1_vel_count < pdl_vel_psc) begin
-                    pdl1_vel_count <= pdl1_vel_count + 1;
-                end else begin              // Increment paddle position every velocity tick
-                    pdl1_vel_count <= 0;
-                    // Make sure we aren't at the bottom of the screen
-                    if (pdl1_ypos + pdl_height < v_video - 1) begin
-                        pdl1_ypos <= pdl1_ypos + 2*pdl1_yvel - 1;
-                    end
-                end
-            end
-
-            // Control right paddle's x and y position
-            if (!up_p2) begin           // If player 2 presses up
-                if (down_p2) begin      // And is not pressing down at the same time
-                    pdl2_yvel <= 0;
-                    if (pdl2_vel_count < pdl_vel_psc) begin
-                        pdl2_vel_count <= pdl2_vel_count + 1;
-                    end else begin              // Increment paddle position every velocity tick
-                        pdl2_vel_count <= 0;
-                        // Make sure we aren't at the top of the screen
-                        if (pdl2_ypos > 0) begin
-                            pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
-                        end
-                    end
-                end
-            end else if (!down_p2) begin    // If player 2 presses down and wasn't pressing up
-                pdl2_yvel <= 1;
-                if (pdl2_vel_count < pdl_vel_psc) begin
-                    pdl2_vel_count <= pdl2_vel_count + 1;
-                end else begin              // Increment paddle position every velocity tick
-                    pdl2_vel_count <= 0;
-                    // Make sure we aren't at the bottom of the screen
-                    if (pdl2_ypos + pdl_height < v_video - 1) begin
-                        pdl2_ypos <= pdl2_ypos + 2*pdl2_yvel - 1;
-                    end
-                end
-            end
         end
 
     end

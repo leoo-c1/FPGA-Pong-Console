@@ -182,30 +182,6 @@ module pong_logic (
                     game_over <= 1'b1;
                 end
             
-            // Square collision with left paddle
-            end else if (sq_xpos <= pdl1_xpos + pdl_width + 1 && 
-                        sq_xpos + sq_width >= pdl1_xpos) begin
-                // If top/bottom left corner of the square is hitting the left paddle's right side
-                if (sq_ypos <= pdl1_ypos + pdl_height && 
-                    sq_ypos + sq_width >= pdl1_ypos) begin
-                    // Check if top of the square is hitting the bottom of the paddle
-                    if (sq_ypos == pdl1_ypos + pdl_height ||
-                        sq_ypos == pdl1_ypos + pdl_height - 1) begin
-                        sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
-                        sq_ypos <= sq_ypos + 1;     // Move down one pixel
-                    
-                    // Check if bottom of the square is hitting the top of the paddle
-                    end else if (sq_ypos + sq_width == pdl1_ypos || 
-                                sq_ypos + sq_width == pdl1_ypos + 1) begin
-                        sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
-                        sq_ypos <= sq_ypos - 1;     // Move up by one pixel
-
-                    end else begin
-                        sq_xveldir <= ~sq_xveldir;  // Change direction along y-axis
-                        sq_xpos <= sq_xpos + 1;     // Move to the right one pixel
-                    end
-                end 
-            
             end else if (sq_ypos >= v_video - sq_width - 1) begin    // If we hit the bottom wall
                 sq_yveldir <= ~sq_yveldir;  // Change direction along y-axis
                 sq_ypos <= sq_ypos - 1;     // Move up by one pixel

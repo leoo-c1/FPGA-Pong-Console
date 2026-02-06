@@ -228,6 +228,7 @@ module pong_logic (
                             hit_y <= padl2_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
                             above_centre <= 1'b1;
                             below_centre <= 1'b0;
+                            sq_yveldir <= 1'b0;
                         end
                     end
                 end
@@ -265,10 +266,12 @@ module pong_logic (
                             hit_y <= sq_ypos - padl1_ypos - pdl_height/2 + 1;
                             above_centre <= 1'b0;
                             below_centre <= 1'b1;
+                            sq_yveldir <= 1'b1;
                         end else begin // If we are at/above the paddle's centre
                             hit_y <= padl1_ypos + pdl_height/2 - sq_ypos - sq_width + 1;
                             above_centre <= 1'b1;
                             below_centre <= 1'b0;
+                            sq_yveldir <= 1'b0;
                         end
                     end
                 end

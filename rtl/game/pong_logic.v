@@ -38,17 +38,23 @@ module pong_logic (
     parameter pdl_height = 96;      // The height of the paddle 
 
     // Square velocity setup
-    parameter VEL_THRESHOLD = 25_175_000;
-    wire [8:0] sq_xvel;
-    wire [8:0] sq_yvel;
+    parameter MIN_VEL = 300;    // Used for reset, square missed, centre hit, startup and game over
+    parameter MAX_VEL = 500;    // Maximum velocity in pixels/second for edge hits
+    parameter VEL_WIDTH = $clog2(MAX_VEL + 1);  // Width of velocity register
+    wire [VEL_WIDTH-1:0] sq_xvel;
+    wire [VEL_WIDTH-1:0] sq_yvel;
     // Accumulators to store partial pixel progress.
+    parameter VEL_THRESHOLD = 25_175_000;
     reg [24:0] x_acc = 0;
     reg [24:0] y_acc = 0;
     reg sq_xveldir = 1'b0;          // Square's direction of velocity along x, 0 = left, 1 = right
     reg sq_yveldir = 1'b0;          // Square's direction of velocity along y, 0 = up, 1 = down
     reg paddle_hit = 1'b0;          // Whether or not we just hit a paddle
 
-    velocity_mapper sq_velocity (
+    velocity_mapper #(
+        .MIN_VEL(MIN_VEL), .MAX_VEL(MAX_VEL),
+        .VEL_WIDTH(VEL_WIDTH)
+    ) sq_velocity(
         .clk_0(clk_0),
         .rst(rst),
         .paddle_hit(paddle_hit), .hit_y(hit_y),
@@ -57,7 +63,7 @@ module pong_logic (
     );
 
     // Paddle velocity setup
-    parameter pdl_vel = 400;                        // Paddles' velocities in pixels/second
+    parameter pdl_vel = 600;                        // Paddles' velocities in pixels/second
     parameter pdl_vel_psc = 25_175_000/pdl_vel;     // Clock prescaler for paddles' velocities
     reg [18:0] pdl1_vel_count = 0;                  // Left paddle's velocity ticker
     reg [18:0] pdl2_vel_count = 0;                  // Right paddle's velocity ticker

@@ -32,10 +32,8 @@ module pong_engine_top #(
     // Game states
     wire [9:0] square_xpos;
     wire [9:0] square_ypos;
-
     wire [9:0] paddle1_xpos;
     wire [9:0] paddle1_ypos;
-
     wire [9:0] paddle2_xpos;
     wire [9:0] paddle2_ypos;
 
@@ -45,8 +43,11 @@ module pong_engine_top #(
     wire game_over;
     wire game_startup;
 
-    // Debounced button signals
-    wire [BUTTONS-1:0] debounced_signal;
+    // Paddle control
+    wire ctrl_p1_up;
+    wire ctrl_p1_down;
+    wire ctrl_p2_up;
+    wire ctrl_p2_down;
 
     vga_sync vga_sync_logic (
         .clk_0(clk_0),
@@ -56,20 +57,21 @@ module pong_engine_top #(
         .video_on(video_on)
     );
 
-    button_debouncer #(
-        .BUTTONS(BUTTONS)
-    ) user_input (
-        .clk(clk),
+    // Input bridge
+    input_bridge #(.BUTTONS(BUTTONS)) input_manager (
+        .clk(clk), 
         .rst(rst),
-        .raw_signal(button),
-        .debounced_signal(debounced_signal)
+        .input_mode(2'b00), // Choose buttons for now
+        .btn_raw(button),
+        .p1_up(ctrl_p1_up), .p1_down(ctrl_p1_down),
+        .p2_up(ctrl_p2_up), .p2_down(ctrl_p2_down)
     );
 
     pong_logic game_state (
         .clk_0(clk_0),
         .rst(rst),
-        .up_p1(debounced_signal[0]), .down_p1(debounced_signal[1]),
-        .up_p2(debounced_signal[2]), .down_p2(debounced_signal[3]),
+        .up_p1(ctrl_p1_up), .down_p1(ctrl_p1_down),
+        .up_p2(ctrl_p2_up), .down_p2(ctrl_p2_down),
         .sq_xpos(square_xpos), .sq_ypos(square_ypos),
         .pdl1_xpos(paddle1_xpos), .pdl1_ypos(paddle1_ypos),
         .pdl2_xpos(paddle2_xpos), .pdl2_ypos(paddle2_ypos),

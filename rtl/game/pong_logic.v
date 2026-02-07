@@ -55,9 +55,10 @@ module pong_logic (
     );
 
     // Square velocity setup
-    parameter MIN_VEL = 400;    // Used for reset, square missed, centre hit, startup and game over
-    parameter MAX_VEL = 500;    // Maximum velocity in pixels/second for edge hits
-    parameter VEL_WIDTH = $clog2(MAX_VEL + 1);  // Width of velocity register
+    parameter INIT_XVEL = 300;  // Used on reset, startup or game over
+    parameter MIN_XVEL = 500;   // Used for reset, square missed, centre hit, startup and game over
+    parameter MAX_XVEL = 600;   // Maximum horizontal velocity in pixels/second for edge hits
+    parameter VEL_WIDTH = $clog2(MAX_XVEL + 1);  // Width of velocity register
     wire [VEL_WIDTH-1:0] sq_xvel;
     wire [VEL_WIDTH-1:0] sq_yvel;
 
@@ -73,9 +74,9 @@ module pong_logic (
     wire [9:0] pdl1_cent_y = pdl1_ypos + pdl_height/2;  // Center of Left paddle
     wire [9:0] pdl2_cent_y = pdl2_ypos + pdl_height/2;  // Center of Right paddle
 
-
     velocity_mapper #(
-        .MIN_VEL(MIN_VEL), .MAX_VEL(MAX_VEL),
+        .INIT_XVEL(INIT_XVEL),
+        .MIN_XVEL(MIN_XVEL), .MAX_XVEL(MAX_XVEL),
         .VEL_WIDTH(VEL_WIDTH)
     ) sq_velocity(
         .clk_0(clk_0),
@@ -95,34 +96,55 @@ module pong_logic (
     reg [21:0] safe_start_count = 0;
 
     // Helper task to reset game state
-    task reset_game_state;
+    task spawn_ball;
         begin
             sq_xpos <= h_video / 2;
-            sq_ypos <= v_video / 2;
+            sq_ypos <= rand_y;
+            sq_xveldir <= 1'b0;
+            sq_yveldir <= rand_y[0];
             x_acc <= 0;
             y_acc <= 0;
             paddle_hit <= 1'b0;
             hit_y <= 0;
-            sq_xveldir <= 1'b0;
-            sq_yveldir <= 1'b0;
             sq_shown <= 1'b0;
             sq_missed <= 1'b1;
             delay_count <= 0;
-            score_p1 <= 0;
-            score_p2 <= 0;
         end
     endtask
+
+    // Pseudorandom number generator
+    // Counts up and down between 100 and 380 to generate safe y coordinates
+    reg [9:0] rand_y = 100;
+    reg rand_dir = 0;       // Count direction
+
+    always @(posedge clk_0) begin
+        if (rand_dir == 0) begin
+            if (rand_y < 380)
+                rand_y <= rand_y + 1;
+            else
+                rand_dir <= 1;
+        end else begin
+            if (rand_y > 100)
+                rand_y <= rand_y - 1;
+            else
+                rand_dir <= 0;
+        end
+    end
 
     always @ (posedge clk_0, negedge rst) begin
         if (!rst) begin        // If we reset
             // Reset the score and sprites' positions and velocities
-            reset_game_state();
+            spawn_ball();
+            score_p1 <= 0;
+            score_p2 <= 0;
             game_over <= 1'b0;
             game_startup <= 1'b1;
             safe_start_count <= 0;
         end else if (game_over) begin   // If the game is over
             // Reset the score and sprites' positions and velocities
-            reset_game_state();
+            spawn_ball();
+            score_p1 <= 0;
+            score_p2 <= 0;
             game_over <= 1'b1;
             game_startup <= 1'b0;
             safe_start_count <= 0;
@@ -132,7 +154,9 @@ module pong_logic (
                     end
         end else if (game_startup) begin    // If we're on the startup menu
             // Reset the score and sprites' positions and velocities
-            reset_game_state();
+            spawn_ball();
+            score_p1 <= 0;
+            score_p2 <= 0;
             game_over <= 1'b0;
             game_startup <= 1'b1;
             // Stay in start up until user presses buttons (after safety delay passes)
@@ -149,14 +173,8 @@ module pong_logic (
             paddle_hit <= 1'b0;         // Default to no hit
 
             // Square collision with right wall
-            if (sq_xpos >= h_video - sq_width - 1) begin // Reset game state
-                sq_missed <= 1'b1;
-                sq_xpos <= h_video /2;
-                sq_ypos <= v_video /2;
-                x_acc <= 0;
-                y_acc <= 0;
-                sq_xveldir <= 1'b0;
-                sq_yveldir <= 1'b0;
+            if (sq_xpos >= h_video - sq_width - 1) begin // Respawn ball
+                spawn_ball();
                 if (score_p1 < max_score - 1) begin
                     score_p1 <= score_p1 + 1;
                     game_over <= 1'b0;
@@ -166,13 +184,7 @@ module pong_logic (
 
             // Square collision with left wall
             end else if (sq_xpos <= 0) begin
-                sq_missed <= 1'b1;
-                sq_xpos <= h_video /2;
-                sq_ypos <= v_video /2;
-                x_acc <= 0;
-                y_acc <= 0;
-                sq_xveldir <= 1'b0;
-                sq_yveldir <= 1'b0;
+                spawn_ball();
                 if (score_p2 < max_score - 1) begin
                     score_p2 <= score_p2 + 1;
                     game_over <= 1'b0;
@@ -284,14 +296,10 @@ module pong_logic (
             if (sq_missed) begin
                 if (delay_count < delay) begin
                     sq_shown <= 1'b0;
-                    sq_xpos <= h_video /2;
-                    sq_ypos <= v_video /2;
                     delay_count <= delay_count + 1;
                 end else begin
                     sq_shown <= 1'b1;
                     sq_missed <= 1'b0;
-                    sq_xpos <= h_video /2;
-                    sq_ypos <= v_video /2;
                     delay_count <= 0;
                 end
             end

@@ -1,6 +1,6 @@
 module net_renderer #(
     parameter H_VIDEO = 640,
-    parameter NET_WIDTH = 12,
+    parameter NET_WIDTH = 6,
     parameter DASH_HEIGHT = 12,  // Height of the white part
     parameter GAP_HEIGHT = 12    // Height of the empty part
 )(

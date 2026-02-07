@@ -8,6 +8,8 @@ module pong_logic (
     input wire up_p2,       // Player 2 up
     input wire down_p2,     // Player 2 down
 
+    input wire start_trigger,       // For triggering startup when any key is pressed
+
     // Coordinates for the top left corner of each sprite
     output reg [9:0] sq_xpos = h_video /2,
     output reg [9:0] sq_ypos = v_video/2,
@@ -149,7 +151,7 @@ module pong_logic (
             game_startup <= 1'b0;
             safe_start_count <= 0;
             // Stay in game over until user presses buttons
-            if (up_p1 || down_p1 || up_p2 || down_p2) begin
+            if (up_p1 || down_p1 || up_p2 || down_p2 || start_trigger) begin
                     game_over <= 1'b0;
                     end
         end else if (game_startup) begin    // If we're on the startup menu
@@ -165,7 +167,7 @@ module pong_logic (
                 game_startup <= 1'b1;
             // Only check buttons if the timer is finished
             end else begin 
-                    if (up_p1 || down_p1 || up_p2 || down_p2) begin
+                    if (up_p1 || down_p1 || up_p2 || down_p2 || start_trigger) begin
                     game_startup <= 1'b0;
                     end
             end

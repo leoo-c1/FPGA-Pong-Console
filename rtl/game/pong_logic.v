@@ -151,7 +151,7 @@ module pong_logic (
             game_startup <= 1'b0;
             safe_start_count <= 0;
             // Stay in game over until user presses buttons
-            if (up_p1 || down_p1 || up_p2 || down_p2 || start_trigger) begin
+            if (start_trigger) begin
                     game_over <= 1'b0;
                     end
         end else if (game_startup) begin    // If we're on the startup menu
@@ -167,7 +167,7 @@ module pong_logic (
                 game_startup <= 1'b1;
             // Only check buttons if the timer is finished
             end else begin 
-                    if (up_p1 || down_p1 || up_p2 || down_p2 || start_trigger) begin
+                    if (start_trigger) begin
                     game_startup <= 1'b0;
                     end
             end

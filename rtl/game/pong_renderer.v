@@ -1,4 +1,9 @@
-module pong_renderer (
+module pong_renderer #(
+    // Sprite settings
+    parameter SQ_WIDTH = 16,
+    parameter PDL_HEIGHT = 96,
+    parameter PDL_WIDTH = 12
+    ) (
     input clk_0,            // 25.175MHz clock
     input rst,              // Reset button
 
@@ -24,6 +29,8 @@ module pong_renderer (
     input wire game_over,       // Whether or not the game is over
     input wire game_startup,    // Whether or not we are on the startup menu
 
+    input wire in_startup_text,
+
     output reg red,         // Red colour (either 0v or 0.7v)
     output reg green,       // Green colour (either 0v or 0.7v)
     output reg blue         // Blue colour (either 0v or 0.7v)
@@ -31,10 +38,6 @@ module pong_renderer (
 
     parameter h_video = 640;        // Horizontal active video (in pixels)
     parameter v_video = 480;        // Vertical active video (in lines)
-
-    parameter square_width = 16;    // The side lengths of the square
-    parameter paddle_width = 12;    // The thickness of the paddle
-    parameter paddle_height = 96;   // The height of the paddle
 
     reg in_square = 1'b0;           // If current pixel is inside the square
     wire in_square_raw;
@@ -44,16 +47,7 @@ module pong_renderer (
     wire in_paddle2_raw;
     wire in_net;                    // If the current pixel is in the net
     wire in_scoreboard;             // If the current pixel is in the scoreboard
-    wire in_startup_text;           // If the current pixel is in the startup text ('PONG...')
     wire in_over_text;              // If the current pixel is in the game over text
-
-    // Startup menu
-    start_menu startup_menu (
-        .clk_0(clk_0),
-        .rst(rst),
-        .pixel_x(pixel_x), .pixel_y(pixel_y),
-        .in_text(in_startup_text)
-    );
 
     // Game over text
     game_over game_over_text (
@@ -85,21 +79,21 @@ module pong_renderer (
     );
 
     // Detect square
-    rect_renderer #(.WIDTH(square_width), .HEIGHT(square_width)) draw_sq (
+    rect_renderer #(.WIDTH(SQ_WIDTH), .HEIGHT(SQ_WIDTH)) draw_sq (
         .pixel_x(pixel_x), .pixel_y(pixel_y),
         .rect_x(square_xpos), .rect_y(square_ypos),
         .is_active(in_square_raw)
     );
     
     // Detect paddle 1
-    rect_renderer #(.WIDTH(paddle_width), .HEIGHT(paddle_height)) draw_p1 (
+    rect_renderer #(.WIDTH(PDL_WIDTH), .HEIGHT(PDL_HEIGHT)) draw_p1 (
         .pixel_x(pixel_x), .pixel_y(pixel_y),
         .rect_x(paddle1_xpos), .rect_y(paddle1_ypos),
         .is_active(in_paddle1_raw)
     );
 
     // Detect paddle 2
-    rect_renderer #(.WIDTH(paddle_width), .HEIGHT(paddle_height)) draw_p2 (
+    rect_renderer #(.WIDTH(PDL_WIDTH), .HEIGHT(PDL_HEIGHT)) draw_p2 (
         .pixel_x(pixel_x), .pixel_y(pixel_y),
         .rect_x(paddle2_xpos), .rect_y(paddle2_ypos),
         .is_active(in_paddle2_raw)

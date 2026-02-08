@@ -44,7 +44,7 @@ module startup_text #(
         .pixel_on(in_title)
     );
 
-    // Generate string 'SELECT MODE'
+    // Generate string 'SELECT MODE:'
     string_display #(
         .SCALE(SELECT_SCALE),
         .KERNING(KERNING),

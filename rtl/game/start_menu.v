@@ -76,8 +76,6 @@ module start_menu #(
                     mode_choice <= 2'b01;
                 else if (choice_y == MP_Y)  // If multiplayer is chosen
                     mode_choice <= 2'b10;
-                else                        // If somehow neither of these are the option
-                    mode_choice <= 2'b00;   // Don't start the game
             end
 
         end

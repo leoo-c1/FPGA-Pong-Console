@@ -2,7 +2,7 @@ module ai_opponent #(
     parameter V_VIDEO = 480,        // Height of the video frame
     parameter PDL_HEIGHT = 96,      // Height of the paddle
     parameter SPEED = 600,          // Paddle vertical velocity in pixels/second
-    parameter REACTION_TIME = 0.5   // Time the AI takes to react to the ball coming towards it
+    parameter REACTION_TIME = 500   // Time (ms) the AI takes to react to the ball coming towards it
     )(
     input clk_0,                    // 25.175MHz clock
     input rst,                      // Reset button
@@ -18,9 +18,8 @@ module ai_opponent #(
     );
 
     // Reaction delay
-    parameter REACTION_TIME = 500;  // Time (ms) the AI takes to react to the ball coming towards it
-    parameter REACTION_PSC = REACTION_TIME * 25_175;        // 25175 is freq/1000 to account for ms
-    parameter COUNT_WIDTH = $clog2(REACTION_PSC + 1);       // Width of count register
+    parameter REACTION_PSC = REACTION_TIME * 25_175;     // 25175 is freq/1000 to account for ms
+    parameter COUNT_WIDTH = $clog2(REACTION_PSC + 1);     // Width of count register
     reg [COUNT_WIDTH-1:0] reaction_count = 0;
 
     // Velocity

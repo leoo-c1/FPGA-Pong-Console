@@ -9,11 +9,11 @@ module startup_text #(
     // Coordinates for top left of the 'S' in 'SELECT MODE:'
     parameter SELECT_X = 320 - 6*6*SELECT_SCALE - 5*KERNING,
     parameter SELECT_Y = TITLE_Y + 8*TITLE_SCALE + 60 - 1,
-    // Coordinates for top left of the 'S' in 'SINGLEPLAYER'
-    parameter SP_X = 320 - 6*6*MODE_SCALE - 5*KERNING,
+    // Coordinates for top left of the '1' in '1 PLAYER'
+    parameter SP_X = 320 - 4*6*MODE_SCALE - 3*KERNING,
     parameter SP_Y = SELECT_Y + 8*SELECT_SCALE + 20 - 1,
-    // Coordinates for top left of the 'M' in 'MULTIPLAYER'
-    parameter MP_X = 320 - 33*MODE_SCALE - 4*KERNING,
+    // Coordinates for top left of the '2' in '2 PLAYERS'
+    parameter MP_X = 320 - 27*MODE_SCALE - 4*KERNING,
     parameter MP_Y = SP_Y + 8*MODE_SCALE + 20 - 1
 ) (
     input clk_0,
@@ -58,12 +58,12 @@ module startup_text #(
         .pixel_on(in_select)
     );
 
-    // Generate string 'SINGLEPLAYER'
+    // Generate string '1 PLAYER'
     string_display #(
         .SCALE(MODE_SCALE),
         .KERNING(KERNING),
-        .LEN(12),
-        .TEXT("SINGLEPLAYER")
+        .LEN(8),
+        .TEXT("1 PLAYER")
     ) singleplayer (
         .clk_0(clk_0),
         .rst(rst),
@@ -72,12 +72,12 @@ module startup_text #(
         .pixel_on(in_sp)
     );
 
-    // Generate string 'MULTIPLAYER'
+    // Generate string '2 PLAYERS'
     string_display #(
         .SCALE(MODE_SCALE),
         .KERNING(KERNING),
-        .LEN(11),
-        .TEXT("MULTIPLAYER")
+        .LEN(9),
+        .TEXT("2 PLAYERS")
     ) multiplayer (
         .clk_0(clk_0),
         .rst(rst),

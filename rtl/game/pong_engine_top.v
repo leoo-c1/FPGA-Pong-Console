@@ -8,6 +8,10 @@ module pong_engine_top #(
     parameter PLAYER_SPEED = 500,       // Speed of the player's paddle
     parameter AI_SPEED = 500,           // Speed of the AI's paddle
     parameter AI_REACTION_TIME = 400,   // Time (ms) the AI takes to react to the ball coming
+    parameter MIN_OFFSET = 0,           // Minimum error in pixels (Sharpest aim)
+    parameter MAX_OFFSET = 48,          // Maximum error in pixels (Sloppiest aim)
+    parameter BASE_OFFSET = 6,          // Default error when scores are tied
+    parameter SCALING_FACTOR = 3,       // How many pixels the error changes per point difference
 
     // Sprite settings
     parameter SQ_WIDTH = 16,
@@ -104,6 +108,9 @@ module pong_engine_top #(
         .PDL_SPEED(PLAYER_SPEED),
         .AI_SPEED(AI_SPEED),
         .AI_REACTION_TIME(AI_REACTION_TIME),
+        .MIN_OFFSET(MIN_OFFSET), .MAX_OFFSET(MAX_OFFSET),
+        .BASE_OFFSET(BASE_OFFSET),
+        .SCALING_FACTOR(SCALING_FACTOR),
 
         .SQ_WIDTH(SQ_WIDTH),
         .PDL_HEIGHT(PADDLE_HEIGHT),

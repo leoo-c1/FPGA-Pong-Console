@@ -15,7 +15,7 @@
 
 This project implements a complete Pong game console on the Intel Cyclone IV FPGA. Unlike software-based emulators, this system renders graphics and calculates physics directly in hardware using custom digital logic circuits.
 
-The design features a 60Hz VGA display driver, hardware collision detection, 2-digit scorekeeping, and a state-machine-driven menu system. It includes a custom AI opponent with dynamic difficulty scaling and supports external input via UART for connecting keyboards or PS4 controllers.
+The design features a 60Hz VGA display driver, hardware collision detection, 2-digit scorekeeping, and a state-machine-driven menu system. It includes a custom AI opponent with dynamic difficulty scaling and supports external input via UART for connecting a keyboard or PS4 controller.
 
 ## System Architecture
 

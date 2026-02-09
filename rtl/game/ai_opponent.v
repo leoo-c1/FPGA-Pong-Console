@@ -2,6 +2,7 @@ module ai_opponent #(
     parameter V_VIDEO = 480,        // Height of the video frame
     parameter PDL_HEIGHT = 96,      // Height of the paddle
     parameter SPEED = 600,          // Paddle vertical velocity in pixels/second
+    parameter RESET_SPEED = 50,     // Paddle vertical velocity moving back to centre post-hit
     parameter REACTION_TIME = 500,  // Time (ms) the AI takes to react to the ball coming towards it
     
     // Difficulty Parameters
@@ -35,6 +36,8 @@ module ai_opponent #(
     // Velocity
     localparam PSC_LIMIT = 25_175_000 / SPEED;
     reg [18:0] vel_count = 0;
+    localparam RESET_PSC_LIMIT = 25_175_000 / RESET_SPEED;
+    reg [18:0] reset_vel_count = 0;
 
     parameter sq_width = 16;                            // The side lengths of the square
     wire [9:0] ai_cent_y = ai_ypos + PDL_HEIGHT/2;      // Centre of AI paddle
@@ -90,11 +93,13 @@ module ai_opponent #(
         if (!rst) begin
             ai_ypos <= (V_VIDEO / 2) - (PDL_HEIGHT / 2);
             vel_count <= 0;
+            reset_vel_count <= 0;
             reaction_count <= 0;
             offset_dir_locked <= 0;
         end else if (reset_game) begin
             ai_ypos <= (V_VIDEO / 2) - (PDL_HEIGHT / 2);
             vel_count <= 0;
+            reset_vel_count <= 0;
             reaction_count <= 0;
             offset_dir_locked <= 0;
         end else begin
@@ -150,16 +155,18 @@ module ai_opponent #(
                 offset_dir_locked <= 0; // Unlock for next hit
                 
                 // Move back towards the centre
-                if (vel_count < PSC_LIMIT) begin
-                    vel_count <= vel_count + 1;
+                if (reset_vel_count < RESET_PSC_LIMIT) begin
+                    reset_vel_count <= reset_vel_count + 1;
                 end else begin
-                    vel_count <= 0;
+                    reset_vel_count <= 0;
                     // If paddle is below centre, move up until it isn't
                     if (ai_cent_y > V_VIDEO/2) begin
-                        if (ai_ypos > 0) ai_ypos <= ai_ypos - 1;
+                        if (ai_ypos > 0)
+                            ai_ypos <= ai_ypos - 1;
                     // If paddle is above square, move down until it isn't
                     end else if (ai_cent_y < V_VIDEO/2) begin
-                        if (ai_ypos < V_VIDEO - PDL_HEIGHT) ai_ypos <= ai_ypos + 1;
+                        if (ai_ypos < V_VIDEO - PDL_HEIGHT)
+                            ai_ypos <= ai_ypos + 1;
                     end
                 end
             end

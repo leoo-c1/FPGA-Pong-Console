@@ -6,6 +6,7 @@ module paddle_control #(
     parameter AI_SPEED = 500,
     parameter AI_RESET_SPEED = 300,     // Paddle vertical velocity moving back to centre post-hit
     parameter AI_REACTION_TIME = 700,
+    parameter RETURN_DELAY = 400,       // Time (ms) passed before AI returns to centre
     parameter MIN_OFFSET = 0,           // Minimum error in pixels (Sharpest aim)
     parameter MAX_OFFSET = 48,          // Maximum error in pixels (Sloppiest aim)
     parameter BASE_OFFSET = 6,          // Default error when scores are tied
@@ -50,6 +51,7 @@ module paddle_control #(
         .SPEED(AI_SPEED),
         .RESET_SPEED(AI_RESET_SPEED),
         .REACTION_TIME(AI_REACTION_TIME),
+        .RETURN_DELAY(RETURN_DELAY),
         .MIN_OFFSET(MIN_OFFSET), .MAX_OFFSET(MAX_OFFSET),
         .BASE_OFFSET(BASE_OFFSET),
         .SCALING_FACTOR(SCALING_FACTOR)

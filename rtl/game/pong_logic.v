@@ -9,6 +9,7 @@ module pong_logic #(
     parameter AI_SPEED = 500,           // Speed of the AI's paddle
     parameter AI_RESET_SPEED = 300,     // Paddle vertical velocity moving back to centre post-hit
     parameter AI_REACTION_TIME = 700,   // Time (ms) the AI takes to react to the ball coming
+    parameter RETURN_DELAY = 400,       // Time (ms) passed before AI returns to centre
     parameter MIN_OFFSET = 0,           // Minimum error in pixels (Sharpest aim)
     parameter MAX_OFFSET = 48,          // Maximum error in pixels (Sloppiest aim)
     parameter BASE_OFFSET = 6,          // Default error when scores are tied
@@ -79,6 +80,7 @@ module pong_logic #(
         .AI_SPEED(AI_SPEED),
         .AI_RESET_SPEED(AI_RESET_SPEED),
         .AI_REACTION_TIME(AI_REACTION_TIME),
+        .RETURN_DELAY(RETURN_DELAY),
         .MIN_OFFSET(MIN_OFFSET), .MAX_OFFSET(MAX_OFFSET),
         .BASE_OFFSET(BASE_OFFSET),
         .SCALING_FACTOR(SCALING_FACTOR)

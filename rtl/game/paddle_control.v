@@ -4,11 +4,12 @@ module paddle_control #(
     parameter START_X = 24,
     parameter PDL_SPEED = 600,
     parameter AI_SPEED = 500,
+    parameter AI_RESET_SPEED = 300,     // Paddle vertical velocity moving back to centre post-hit
     parameter AI_REACTION_TIME = 700,
-    parameter MIN_OFFSET = 0,       // Minimum error in pixels (Sharpest aim)
-    parameter MAX_OFFSET = 48,      // Maximum error in pixels (Sloppiest aim)
-    parameter BASE_OFFSET = 6,      // Default error when scores are tied
-    parameter SCALING_FACTOR = 3    // How many pixels the error changes per point difference
+    parameter MIN_OFFSET = 0,           // Minimum error in pixels (Sharpest aim)
+    parameter MAX_OFFSET = 48,          // Maximum error in pixels (Sloppiest aim)
+    parameter BASE_OFFSET = 6,          // Default error when scores are tied
+    parameter SCALING_FACTOR = 3        // How many pixels the error changes per point difference
 )(
     input clk_0,                // 25.175MHz clock
     input rst,                  // Reset button
@@ -47,6 +48,7 @@ module paddle_control #(
         .V_VIDEO(V_VIDEO),
         .PDL_HEIGHT(PDL_HEIGHT),
         .SPEED(AI_SPEED),
+        .RESET_SPEED(AI_RESET_SPEED),
         .REACTION_TIME(AI_REACTION_TIME),
         .MIN_OFFSET(MIN_OFFSET), .MAX_OFFSET(MAX_OFFSET),
         .BASE_OFFSET(BASE_OFFSET),

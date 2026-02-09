@@ -103,5 +103,5 @@ The project was originally designed for the Intel Cyclone IV EP4CE6E22C8N FPGA o
 ```
 
 ## Credits
-- [UART_Communication](library/UART_Communication) implements Ben Marshall's [UART repository](https://github.com/ben-marshall/uart/tree/master).
+- [uart_rx](rtl/inputs/uart_rx.v) implements Ben Marshall's [UART repository](https://github.com/ben-marshall/uart/tree/master).
 - The AI opponent's dynamic difficulty scaling was inspired by Jake Gordon's implementation of [Javascript Pong](https://github.com/jakesgordon/javascript-pong)

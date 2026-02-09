@@ -4,6 +4,7 @@ module ai_opponent #(
     parameter SPEED = 600,          // Paddle vertical velocity in pixels/second
     parameter RESET_SPEED = 50,     // Paddle vertical velocity moving back to centre post-hit
     parameter REACTION_TIME = 500,  // Time (ms) the AI takes to react to the ball coming towards it
+    parameter RETURN_DELAY = 400,   // Time (ms) passed before AI returns to centre
     
     // Difficulty Parameters
     parameter MIN_OFFSET = 0,       // Minimum error in pixels (Sharpest aim)
@@ -28,10 +29,15 @@ module ai_opponent #(
     output reg [9:0] ai_ypos        // AI-controlled paddle position
     );
 
-    // Reaction delay
-    parameter REACTION_PSC = REACTION_TIME * 25_175;     // 25175 is freq/1000 to account for ms
-    parameter COUNT_WIDTH = $clog2(REACTION_PSC + 1);     // Width of count register
+    // Reaction and return delay
+    parameter REACTION_PSC = REACTION_TIME * 25_175;    // 25175 is freq/1000 to account for ms
+    parameter COUNT_WIDTH = $clog2(REACTION_PSC + 1);   // Width of count register
     reg [COUNT_WIDTH-1:0] reaction_count = 0;
+
+    parameter RETURN_PSC = RETURN_DELAY * 25_175;       // 25175 is freq/1000 to account for ms
+    parameter DELAY_WIDTH = $clog2(RETURN_PSC + 1);     // Width of return delay register
+    reg [DELAY_WIDTH-1:0] return_count = 0;
+
 
     // Velocity
     localparam PSC_LIMIT = 25_175_000 / SPEED;
@@ -105,6 +111,8 @@ module ai_opponent #(
         end else begin
             // Check if the ball has started coming towards the AI
             if (sq_xveldir == 1'b1 && !sq_missed) begin
+                // Reset return delay count
+                return_count <= 0;
                 
                 // Lock in the error direction once per volley
                 if (offset_dir_locked == 0) begin
@@ -154,19 +162,23 @@ module ai_opponent #(
                 reaction_count <= 0;
                 offset_dir_locked <= 0; // Unlock for next hit
                 
-                // Move back towards the centre
-                if (reset_vel_count < RESET_PSC_LIMIT) begin
-                    reset_vel_count <= reset_vel_count + 1;
+                // Move back towards the centre once return delay is over
+                if (return_count < RETURN_PSC) begin
+                    return_count <= return_count + 1;
                 end else begin
-                    reset_vel_count <= 0;
-                    // If paddle is below centre, move up until it isn't
-                    if (ai_cent_y > V_VIDEO/2) begin
-                        if (ai_ypos > 0)
-                            ai_ypos <= ai_ypos - 1;
-                    // If paddle is above square, move down until it isn't
-                    end else if (ai_cent_y < V_VIDEO/2) begin
-                        if (ai_ypos < V_VIDEO - PDL_HEIGHT)
-                            ai_ypos <= ai_ypos + 1;
+                    if (reset_vel_count < RESET_PSC_LIMIT) begin
+                        reset_vel_count <= reset_vel_count + 1;
+                    end else begin
+                        reset_vel_count <= 0;
+                        // If paddle is below centre, move up until it isn't
+                        if (ai_cent_y > V_VIDEO/2) begin
+                            if (ai_ypos > 0)
+                                ai_ypos <= ai_ypos - 1;
+                        // If paddle is above square, move down until it isn't
+                        end else if (ai_cent_y < V_VIDEO/2) begin
+                            if (ai_ypos < V_VIDEO - PDL_HEIGHT)
+                                ai_ypos <= ai_ypos + 1;
+                        end
                     end
                 end
             end

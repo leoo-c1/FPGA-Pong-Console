@@ -56,6 +56,7 @@ module pong_logic #(
     parameter v_video = 480;        // Vertical active video (in lines)
 
     // Control paddle movement
+    /*
     // Player 1
     paddle_control #(
         .START_X(24),
@@ -70,6 +71,30 @@ module pong_logic #(
         .sq_xveldir(sq_xveldir),
         .sq_missed(sq_missed),
         .score_p1(score_p1), .score_p2(score_p2),
+        .x_pos(pdl1_xpos), .y_pos(pdl1_ypos)
+    );
+    */
+
+    // Player 1, AI controlled for fun
+    paddle_control #(
+        .START_X(24),
+        .PDL_HEIGHT(PDL_HEIGHT),
+        .AI_SPEED(AI_SPEED),
+        .AI_RESET_SPEED(AI_RESET_SPEED),
+        .AI_REACTION_TIME(AI_REACTION_TIME),
+        .RETURN_DELAY(RETURN_DELAY),
+        .MIN_OFFSET(MIN_OFFSET), .MAX_OFFSET(MAX_OFFSET),
+        .BASE_OFFSET(BASE_OFFSET),
+        .SCALING_FACTOR(SCALING_FACTOR)
+        ) p1_move (
+        .clk_0(clk_0), .rst(rst),
+        .reset_game(game_startup | game_over),
+        .mode_choice(2'b01),    // Forced to be multiplayer, paddle 1 is always player-controlled
+        .move_up(up_p1), .move_down(down_p1),
+        .sq_xpos(sq_xpos), .sq_ypos(sq_ypos),
+        .sq_xveldir(~sq_xveldir),
+        .sq_missed(sq_missed),
+        .score_p1(score_p2), .score_p2(score_p1),
         .x_pos(pdl1_xpos), .y_pos(pdl1_ypos)
     );
 

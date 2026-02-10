@@ -9,6 +9,8 @@
 
 **A dedicated Pong game console built in Verilog, designed for 640x480 @ 60Hz VGA output with low-latency hardware controls.**
 
+![Demo GIF](/media/pong.gif)
+
 </div>
 
 ## Overview

@@ -56,7 +56,6 @@ module pong_logic #(
     parameter v_video = 480;        // Vertical active video (in lines)
 
     // Control paddle movement
-    /*
     // Player 1
     paddle_control #(
         .START_X(24),
@@ -73,9 +72,9 @@ module pong_logic #(
         .score_p1(score_p1), .score_p2(score_p2),
         .x_pos(pdl1_xpos), .y_pos(pdl1_ypos)
     );
-    */
 
-    // Player 1, AI controlled for fun
+    /*
+    // Uncomment this out for AI vs. AI control, comment out other p1_move
     paddle_control #(
         .START_X(24),
         .PDL_HEIGHT(PDL_HEIGHT),
@@ -97,6 +96,7 @@ module pong_logic #(
         .score_p1(score_p2), .score_p2(score_p1),
         .x_pos(pdl1_xpos), .y_pos(pdl1_ypos)
     );
+    */
 
     // Player 2, either player-controlled or AI-controlled
     paddle_control #(
